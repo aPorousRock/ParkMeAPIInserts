@@ -6,9 +6,9 @@ router.get('/', function(req, res){
   res.status(200).json({"status": "Running", "Server": "Impala"});
 });
 
-router.get('/executeQuery', function(req, res) {
+router.get('/impala/executeQuery', function(req, res) {
   if (req.query.query == "" || req.query.query == undefined){
-    res.status(400).json({"Error": "No query field specified"});
+    return res.status(400).json({"Error": "No query field specified"});
   }
 
   executeQuery(req.query.query, function (err, results) {

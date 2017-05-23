@@ -17,6 +17,7 @@
     "config-parser": "0.0.3",
     "cors": "^2.8.3",
     "express": "^4.15.2",
+    "mongoose": "^4.10.2",
     "node-impala": "^2.0.4",
     "nodemon": "^1.11.0"
   }

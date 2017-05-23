@@ -1,5 +1,0 @@
-{
-  "ENV" : "development",
-  "IMPALA_HOST" : "iscdh130.innovate.ibm.com",
-  "IMPALA_PORT" : "21000"
-}

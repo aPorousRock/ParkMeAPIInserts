@@ -7,5 +7,5 @@ app.use(cors());
 app.use(routes);
 
 app.listen(5000, '0.0.0.0', function() {
-  console.log("Server running");
+  console.log("API Server running at port 5000");
 });

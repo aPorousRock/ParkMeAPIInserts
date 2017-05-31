@@ -24,11 +24,13 @@ router.get('/impala/executeQuery', function(req, res) {
 });
 
 router.get('/solr/executeQuery', function(req, res) {
-  if (req.query.query == "" || req.query.query == undefined){
-    return res.status(400).json({"Error": "No query field specified"});
+  if (req.query.query == "" || req.query.query == undefined
+    || req.query.collection == "" || req.query.collection == undefined
+    || req.query.aggregationMode == "" || req.query.aggregationMode == undefined){
+    return res.status(400).json({"Error": "Query fields requred - query,collection,aggregationMode"});
   }
 
-  executeSolrQuery(req.query.query, function (err, results) {
+  executeSolrQuery(req.query.query, req.query.collection, req.query.aggregationMode, function (err, results) {
     if(err) {
       return res.status(500).json(err.message);
     }

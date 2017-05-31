@@ -3,7 +3,7 @@ const conf = require('config');
 
 const client = impala.createClient();
 
-var executeQuery = function(querystring, callback) {
+var executeImpalaQuery = function(querystring, callback) {
 
   // To be modified - hardcoded now
   // console.log(querystring);
@@ -37,4 +37,4 @@ var executeQuery = function(querystring, callback) {
   }));
 };
 
-module.exports = executeQuery;
+module.exports = executeImpalaQuery;

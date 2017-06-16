@@ -42,36 +42,52 @@ router.get('/solr/executeQuery', function(req, res) {
 
 });
 
-router.get('/getAccountsByPersona', function(req, res) {
+// router.get('/getAccountsByPersona', function(req, res) {
+//   if(req.query.persona == "" || req.query.persona == undefined) {
+//     return res.status(400).json({"Error": "Please specify `persona` as query"});
+//   }
+//
+//   var mongoConnector = new MongoConnector('bfmongodb');
+//   mongoConnector.getAccountsByPersona(req.query.persona, function(err, accounts) {
+//     if(err) {
+//       return res.status(500).json(err.message);
+//     }
+//     else {
+//       console.log(accounts);
+//       return res.status(200).json(accounts);
+//     }
+//   });
+// });
+//
+// router.get('/getServicesByPersona', function(req, res) {
+//   if(req.query.persona == "" || req.query.persona == undefined) {
+//     return res.status(400).json({"Error": "Please specify `persona` as query"});
+//   }
+//
+//   var mongoConnector = new MongoConnector('bfmongodb');
+//   mongoConnector.getServicesByPersona(req.query.persona, function(err, services) {
+//     if(err) {
+//       return res.status(500).json(err.message);
+//     }
+//     else {
+//       console.log(services);
+//       return res.status(200).json(services);
+//     }
+//   });
+// });
+
+router.get('/getAccountsAndServicesByPersona', function(req, res) {
   if(req.query.persona == "" || req.query.persona == undefined) {
     return res.status(400).json({"Error": "Please specify `persona` as query"});
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.getAccountsByPersona(req.query.persona, function(err, accounts) {
+  mongoConnector.getAccountsAndServicesByPersona(req.query.persona, function(err, doc) {
     if(err) {
       return res.status(500).json(err.message);
     }
     else {
-      console.log(accounts);
-      return res.status(200).json(accounts);
-    }
-  });
-});
-
-router.get('/getServicesByPersona', function(req, res) {
-  if(req.query.persona == "" || req.query.persona == undefined) {
-    return res.status(400).json({"Error": "Please specify `persona` as query"});
-  }
-
-  var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.getServicesByPersona(req.query.persona, function(err, services) {
-    if(err) {
-      return res.status(500).json(err.message);
-    }
-    else {
-      console.log(services);
-      return res.status(200).json(services);
+      return res.status(200).json(doc);
     }
   });
 });

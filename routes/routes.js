@@ -92,4 +92,20 @@ router.get('/getAccountsAndServicesByPersona', function(req, res) {
   });
 });
 
+router.get('/getDashboardsByService', function(req, res) {
+  if(req.query.service == "" || req.query.service == undefined) {
+    return res.status(400).json({"Error": "Please specify `service` as query"});
+  }
+
+  var mongoConnector = new MongoConnector('bfmongodb');
+  mongoConnector.getDashboardsByService(req.query.service, function(err, docs) {
+    if(err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(docs);
+    }
+  });
+});
+
 module.exports = router;

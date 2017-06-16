@@ -96,6 +96,36 @@ MongoConnector.prototype.getAccountsAndServicesByPersona = function(persona, cal
   });
 };
 
+MongoConnector.prototype.getDashboardsByService = function(service, callback) {
+
+  MongoClient.connect(this.mongo_url, function(err, db) {
+    if(err){
+      // console.log("Database connection error");
+      callback({"message":err}, null);
+    }
+    else {
+      db.collection('dashboards').find({"service": service}, {"_id": 0}).toArray(function(err, docs) {
+        if(err){
+          // console.log(err);
+          db.close();
+          callback({"message": err}, null);
+        }
+
+        if(!docs || docs.length<1){
+          // console.log("No such persona");
+          db.close();
+          callback({"message": "No such service"}, null);
+        }
+        else {
+          db.close();
+          callback(null, docs);
+        }
+      });
+    }
+
+    db.close();
+  });
+};
 
 
 module.exports = MongoConnector;

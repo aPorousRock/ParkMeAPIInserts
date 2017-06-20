@@ -106,7 +106,7 @@ module.exports = function(app, db,callback) {
     const completed_at=req.query.completed_at;
   // console.log(account_name);
   //  const details = {};
-    db.collection('JobOutput').findOne( {$and :[{ $or : [ { "jobID":"IBM11223124_summary_msgtype_2017-2-9_2017-2-9_1490119283518" } ] },{ $or : [ { "completed_at":"2017-03-20T15:47:21+00:00"} ] }]}  , (err, items) => {
+    db.collection('JobOutput').findOne( {$and :[{ $or : [ { "jobID":"IBM12345678_summary_msgtype_2017-2-9_2017-2-9_1490119283518" } ] },{ $or : [ { "completed_at":"2017-03-20T15:47:21+00:00"} ] }]}  , (err, items) => {
       if (err) {
         res.send({'error':'An error has occurred'});
       } else {
@@ -122,6 +122,7 @@ module.exports = function(app, db,callback) {
   app.put('/updateLogsByNameandDate', (req, res) => {
     const adopter_name= req.query.adopter_name;
     const completed_at=req.query.completed_at;
+      const jobID= req.query.jobID;
   // console.log(account_name);
   //  const details = {};
     db.collection('JobOutput').updateOne({"adopter_name":"adopter112","completed_at":"2017-03-20T15:47:21+00:00"},{$set:{"jobID":"IBM11223124_summary_msgtype_2017-2-9_2017-2-9_1490119283518"}},(err,items)=> {
@@ -131,12 +132,35 @@ module.exports = function(app, db,callback) {
         return res.send(items);
       }
       console.log("Found the following record");
-     callback(items);
+     //callback(items);
    console.dir(items);
   // return res.write();
 //res.writeContinue();
 //return res.send(items);
-//    res.send(items);
+   res.send(items);
+    });
+  });
+
+  app.put('/updateLogsByjobIDandDate', (req, res) => {
+    const jobID= req.query.jobID;
+    const completed_at=req.query.completed_at;
+    const account_id=req.query.account_id;
+  // console.log(account_name);
+  //  const details = {};
+    db.collection('JobOutput').updateOne({"jobID":"IBM12345678_summary_msgtype_2017-2-9_2017-2-9_1490119283518","completed_at":"2017-03-20T15:47:21+00:00"},{$set:{"account_id":"ABC7744333"}}
+,(err,items)=> {
+      if (err) {
+        return res.send({'error':'An error has occurred'});
+      } else {
+        return res.send(items);
+      }
+      console.log("Found the following record");
+     callback(items);
+   console.dir(items);
+  // return res.write();
+  //res.writeContinue();
+  //return res.send(items);
+  //    res.send(items);
     });
   });
 

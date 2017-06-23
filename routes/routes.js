@@ -6,7 +6,7 @@ const MongoConnector = require('../mongodb/mongo-connector');
 const kafkaConsumer = require('../kafka/kafka-consumer');
 
 router.get('/', function(req, res){
-  res.status(200).json({"status": "Running", "Server": "API Fabric"});
+  return res.status(200).json({"status": "Running", "Server": "API Fabric"});
 });
 
 router.get('/impala/executeQuery', function(req, res) {
@@ -79,18 +79,13 @@ router.get('/getKafkaData', function(req, res, next) {
   if(req.query.topic == "" || req.query.topic == undefined) {
     return res.status(400).json({"Incomplete Request": "Please specify `topic` as query"});
   }
-  // Setup the IO Client
-  var io = req.io.on('connection', function(socket){
-    console.log('a user connected');
-    socket.on('disconnect', function(){
-        console.log('user disconnected');
-    });
-  });
+
+  console.log("Streaming started");
 
   // Call kafkaConsumer
-  kafkaConsumer(req.query.topic, io);
+  kafkaConsumer(req.query.topic, req.io);
 
-  res.status(200).json({"response": "no data"});
+  return res.status(200).json({"response": "Streaming started"});
 });
 
 module.exports = router;

@@ -8,18 +8,42 @@ var kafkaConsumer = function(topic, io) {
 
   const client = new Client(conf.ZOOKEEPER, 'client-1511');
   const payloads = [{ "topic": topic}];
-  const consumer = new HighLevelConsumer(client, payloads);
+  const options = {
+    groupId: 'kafka-node-group',
+    autoCommit: true,
+    autoCommitIntervalMs: 5000,
+    fetchMaxWaitMs: 100,
+    fetchMinBytes: 1,
+    fetchMaxBytes: 1024 * 1024,
+    fromOffset: false,
+    encoding: 'utf8'
+  }
+  const consumer = new HighLevelConsumer(client, payloads, options);
   const offset = new Offset(client);
 
+  var messages = [];
+
+  // Setup the IO Client
+  io.on('connection', function(socket){
+    console.log('a user connected');
+    socket.on('disconnect', function(){
+        console.log('user disconnected');
+    });
+  });
+
   consumer.on('message', function(message) {
-    console.log(message.value);
-    io.emit("message", message.value);
+    const value = JSON.parse(message.value);
+    messages.push(JSON.stringify(value.payload.message));
+    if(messages.length == 50){
+      io.emit("message", messages);
+      messages = [];
+    }
   });
 
   consumer.on('error', function(err) {
-    console.log(error);
+    console.log(err);
   });
-  
+
 };
 
 module.exports = kafkaConsumer;

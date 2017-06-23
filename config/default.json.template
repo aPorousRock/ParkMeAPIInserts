@@ -1,0 +1,12 @@
+{
+  "ENV" : "development",
+  "IMPALA_HOST" : "impala server ip Eg. impala.ibm.com",
+  "IMPALA_PORT" : "imapala server post Eg 21000",
+  "SOLR_HOST" : "solr host url with http/https Eg
+http://solr.innovate.ibm.com",
+  "SOLR_PORT" : "solr port Eg 8983",
+  "MONGO_HOST" : "mongo host without mongodb:// Eg mongo.innovate.iibm.com",
+  "MONGO_PORT" : "mongo port Eg 27017",
+  "MONGO_USERNAME" : "mongo username",
+  "MONGO_PASSWORD" : "mongo password"
+}

@@ -4,7 +4,7 @@
   "description": "Server to request Impala data over HDFS using node.js",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -17,7 +17,7 @@
     "config-parser": "0.0.3",
     "cors": "^2.8.3",
     "express": "^4.15.2",
-    "mongoose": "^4.10.2",
+    "mongodb": "^2.2.28",
     "node-impala": "^2.0.4",
     "nodemon": "^1.11.0",
     "request": "^2.81.0"

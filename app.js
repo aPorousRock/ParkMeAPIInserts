@@ -6,6 +6,10 @@ const app = express();
 app.use(cors());
 app.use(routes);
 
-app.listen(5000, '0.0.0.0', function() {
+app.listen(5000,'0.0.0.0', function() {
   console.log("API Server running at port 5000");
 });
+
+
+
+

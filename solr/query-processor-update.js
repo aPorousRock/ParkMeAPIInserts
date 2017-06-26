@@ -1,15 +1,16 @@
 const conf = require('config');
 const request = require('request');
 
-var executeSolrUpdateQuery = function (query, collection, aggregationMode, parameters, callback) {
+var executeSolrUpdateQuery = function (id,property,propValue, collection, callback) {
 
-  const url = conf.SOLR_HOST + ":" + conf.SOLR_PORT + "/solr/" + "Alerts5" + "/update";
-  var field = parameters.property;
+  //const url = conf.SOLR_HOST + ":" + conf.SOLR_PORT + "/solr/" + "Alerts5" + "/update";
+   const url = "http://bfsolr201.innovate.ibm.com" + ":" + "8983" + "/solr/" + "Alerts5" + "/update";
+  
   var formData = [
     {
-      "id": parameters.id,
-      [field]: {
-        "set": parameters.value
+      "id": id,
+      [property]: {
+        "set": propValue
       }
     }
   ];

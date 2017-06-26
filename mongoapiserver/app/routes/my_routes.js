@@ -101,23 +101,23 @@ module.exports = function(app, db,callback) {
     return res.send(items);
     });
   });
-  app.get('/logsByjobIDUpdatedandDate', (req, res) => {
-    const jobID= req.query.jobID;
-    const completed_at=req.query.completed_at;
-  // console.log(account_name);
-  //  const details = {};
-    db.collection('JobOutput').findOne( {$and :[{ $or : [ { "jobID":"IBM12345678_summary_msgtype_2017-2-9_2017-2-9_1490119283518" } ] },{ $or : [ { "completed_at":"2017-03-20T15:47:21+00:00"} ] }]}  , (err, items) => {
-      if (err) {
-        res.send({'error':'An error has occurred'});
-      } else {
-        res.send(items);
-      }
-      console.log("Found the following record");
-      callback(items);
-      console.dir(items);
-      res.send(items);
-    });
-  });
+  // app.get('/logsByjobIDUpdatedandDate', (req, res) => {
+  //   const jobID= req.query.jobID;
+  //   const completed_at=req.query.completed_at;
+  // // console.log(account_name);
+  // //  const details = {};
+  //   db.collection('JobOutput').findOne( {$and :[{ $or : [ { "jobID":"IBM1432244_summary_msgtype_2017-2-27_2017-2-28_1490211734839" } ] },{ $or : [ { "completed_at":"2017-03-22T15:42:24.039383"} ] }]}  , (err, items) => {
+  //     if (err) {
+  //       res.send({'error':'An error has occurred'});
+  //     } else {
+  //       res.send(items);
+  //     }
+  //     console.log("Found the following record");
+  //     callback(items);
+  //     console.dir(items);
+  //     res.send(items);
+  //   });
+  // });
 
   app.put('/updateLogsByNameandDate', (req, res) => {
     const adopter_name= req.query.adopter_name;
@@ -125,7 +125,7 @@ module.exports = function(app, db,callback) {
       const jobID= req.query.jobID;
   // console.log(account_name);
   //  const details = {};
-    db.collection('JobOutput').updateOne({"adopter_name":"adopter112","completed_at":"2017-03-20T15:47:21+00:00"},{$set:{"jobID":"IBM11223124_summary_msgtype_2017-2-9_2017-2-9_1490119283518"}},(err,items)=> {
+    db.collection('JobOutput').updateOne({"adopter_name":"adopter119","completed_at":"2017-03-22T15:42:24.039383"},{$set:{"jobID":"updateLogsByNameandDate"}},(err,items)=> {
       if (err) {
         return res.send({'error':'An error has occurred'});
       } else {

@@ -45,7 +45,9 @@ router.get('/solr/executeQuery', function (req, res) {
 
 
 router.get('/solr/update', function (req, res) {
-  if (req.query.query == "" || req.query.query == undefined
+  if (req.query.id == "" || req.query.id == undefined ||
+    req.query.property == "" || req.query.property == undefined ||
+    req.query.propValue == "" || req.query.propValue == undefined
     || req.query.collection == "" || req.query.collection == undefined
   )
     executeSolrUpdateQuery(req.query.id, req.query.property, req.query.propValue, req.query.collection, function (err, results) {

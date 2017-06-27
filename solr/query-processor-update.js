@@ -1,11 +1,11 @@
 const conf = require('config');
 const request = require('request');
 
-var executeSolrUpdateQuery = function (id,property,propValue, collection, callback) {
+var executeSolrUpdateQuery = function (id, property, propValue, collection, callback) {
 
-   //const url = conf.SOLR_HOST + ":" + conf.SOLR_PORT + "/solr/" + collection + "/update";
-   const url = "http://bfsolr201.innovate.ibm.com" + ":" + "8983" + "/solr/" + "Alerts5" + "/update";
-  
+  //const url = conf.SOLR_HOST + ":" + conf.SOLR_PORT + "/solr/" + collection + "/update";
+  const url = "http://bfsolr201.innovate.ibm.com" + ":" + "8983" + "/solr/" + "Alerts5" + "/update";
+
   var formData = [
     {
       "id": id,
@@ -22,14 +22,18 @@ var executeSolrUpdateQuery = function (id,property,propValue, collection, callba
   }
 
   request(options, function (err, httpResponse, body) {
-    
-    if (err || body["error"] != undefined) {
+
+    if (err) {
       console.error('error posting json: ', err)
 
       callback(err, "Error");
     }
-
-    callback(null, "Success");
+    else if (httpResponse.statusCode != "200") {
+      callback(null, "Error");
+    }
+    else {
+      callback(null, "Success");
+    }
   });
 }
 

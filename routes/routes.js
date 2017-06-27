@@ -50,15 +50,16 @@ router.get('/solr/update', function (req, res) {
     req.query.propValue == "" || req.query.propValue == undefined
     || req.query.collection == "" || req.query.collection == undefined
   )
-    executeSolrUpdateQuery(req.query.id, req.query.property, req.query.propValue, req.query.collection, function (err, results) {
+    return res.status(400).json({ "Error": "Query fields required - query,collection,aggregationMode" });
+  executeSolrUpdateQuery(req.query.id, req.query.property, req.query.propValue, req.query.collection, function (err, results) {
 
-      if (err) {
-        return res.status(500).json("Error");
-      }
-      else {
-        return res.status(200).json(results);
-      }
-    });
+    if (err) {
+      return res.status(500).json("Error");
+    }
+    else {
+      return res.status(200).json(results);
+    }
+  });
 
 });
 

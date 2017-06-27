@@ -4,7 +4,7 @@ const request = require('request');
 var executeSolrUpdateQuery = function (id, property, propValue, collection, callback) {
 
   const url = conf.SOLR_HOST + ":" + conf.SOLR_PORT + "/solr/" + collection + "/update";
-  
+
 
   var formData = [
     {

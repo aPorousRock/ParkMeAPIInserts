@@ -45,18 +45,18 @@ router.get('/solr/executeQuery', function (req, res) {
 
 
 router.get('/solr/update', function (req, res) {
-if (req.query.query == "" || req.query.query == undefined
+  if (req.query.query == "" || req.query.query == undefined
     || req.query.collection == "" || req.query.collection == undefined
-    )
-  executeSolrUpdateQuery(req.query.id,req.query.property,req.query.propValue, req.query.collection,  function (err, results) {
-   
-    if (err) {
-      return res.status(500).json(results);
-    }
-    else {
-      return res.status(200).json(results);
-    }
-  });
+  )
+    executeSolrUpdateQuery(req.query.id, req.query.property, req.query.propValue, req.query.collection, function (err, results) {
+
+      if (err) {
+        return res.status(500).json("Error");
+      }
+      else {
+        return res.status(200).json(results);
+      }
+    });
 
 });
 

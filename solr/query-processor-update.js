@@ -3,8 +3,8 @@ const request = require('request');
 
 var executeSolrUpdateQuery = function (id,property,propValue, collection, callback) {
 
-   const url = conf.SOLR_HOST + ":" + conf.SOLR_PORT + "/solr/" + collection + "/update";
-   
+   //const url = conf.SOLR_HOST + ":" + conf.SOLR_PORT + "/solr/" + collection + "/update";
+   const url = "http://bfsolr201.innovate.ibm.com" + ":" + "8983" + "/solr/" + "Alerts5" + "/update";
   
   var formData = [
     {
@@ -23,13 +23,13 @@ var executeSolrUpdateQuery = function (id,property,propValue, collection, callba
 
   request(options, function (err, httpResponse, body) {
     
-    if (err) {
+    if (err || body["error"] != undefined) {
       console.error('error posting json: ', err)
 
-      callback(err, err);
+      callback(err, "Error");
     }
 
-    callback(null, body);
+    callback(null, "Success");
   });
 }
 

@@ -4,10 +4,11 @@ const executeImpalaQuery = require('../impala/query-processor');
 const executeSolrQuery = require('../solr/query-processor');
 const executeSolrUpdateQuery = require('../solr/query-processor-update');
 const MongoConnector = require('../mongodb/mongo-connector');
+const kafkaConsumer = require('../kafka/kafka-consumer');
 
-router.get('/', function (req, res) {
-  res.status(200).json({ "status": "Running", "Server": "Impala" });
-});
+
+router.get('/', function(req, res){
+  return res.status(200).json({"status": "Running", "Server": "API Fabric"});
 
 router.get('/impala/executeQuery', function (req, res) {
   if (req.query.query == "" || req.query.query == undefined) {
@@ -43,6 +44,10 @@ router.get('/solr/executeQuery', function (req, res) {
 
 });
 
+
+router.get('/getAccountsAndServicesByPersona', function(req, res) {
+  if(req.query.persona == "" || req.query.persona == undefined) {
+    return res.status(400).json({"Incomplete Request": "Please specify `persona` as query"});
 
 router.get('/solr/update', function (req, res) {
   if (req.query.id == "" || req.query.id == undefined ||
@@ -115,10 +120,10 @@ router.get('/getAccountsAndServicesByPersona', function (req, res) {
   });
 });
 
-router.get('/getDashboardsByService', function (req, res) {
-  if (req.query.service == "" || req.query.service == undefined) {
-    return res.status(400).json({ "Error": "Please specify `service` as query" });
-  }
+router.get('/getDashboardsByService', function(req, res) {
+  if(req.query.service == "" || req.query.service == undefined) {
+    return res.status(400).json({"Incomplete Request": "Please specify `service` as query"});
+
 
   var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.getDashboardsByService(req.query.service, function (err, docs) {
@@ -129,6 +134,19 @@ router.get('/getDashboardsByService', function (req, res) {
       return res.status(200).json(docs);
     }
   });
+});
+
+router.get('/getKafkaData', function(req, res, next) {
+  if(req.query.topic == "" || req.query.topic == undefined) {
+    return res.status(400).json({"Incomplete Request": "Please specify `topic` as query"});
+  }
+
+  console.log("Streaming started");
+
+  // Call kafkaConsumer
+  kafkaConsumer(req.query.topic, req.io);
+
+  return res.status(200).json({"response": "Streaming started"});
 });
 
 module.exports = router;

@@ -9,6 +9,7 @@ const kafkaConsumer = require('../kafka/kafka-consumer');
 
 router.get('/', function(req, res){
   return res.status(200).json({"status": "Running", "Server": "API Fabric"});
+});
 
 router.get('/impala/executeQuery', function (req, res) {
   if (req.query.query == "" || req.query.query == undefined) {
@@ -44,18 +45,15 @@ router.get('/solr/executeQuery', function (req, res) {
 
 });
 
-
-router.get('/getAccountsAndServicesByPersona', function(req, res) {
-  if(req.query.persona == "" || req.query.persona == undefined) {
-    return res.status(400).json({"Incomplete Request": "Please specify `persona` as query"});
-
 router.get('/solr/update', function (req, res) {
   if (req.query.id == "" || req.query.id == undefined ||
     req.query.property == "" || req.query.property == undefined ||
     req.query.propValue == "" || req.query.propValue == undefined
     || req.query.collection == "" || req.query.collection == undefined
-  )
+  ) {
     return res.status(400).json({ "Error": "Query fields required - query,collection,aggregationMode" });
+  }
+
   executeSolrUpdateQuery(req.query.id, req.query.property, req.query.propValue, req.query.collection, function (err, results) {
 
     if (err) {
@@ -67,42 +65,6 @@ router.get('/solr/update', function (req, res) {
   });
 
 });
-
-
-
-// router.get('/getAccountsByPersona', function(req, res) {
-//   if(req.query.persona == "" || req.query.persona == undefined) {
-//     return res.status(400).json({"Error": "Please specify `persona` as query"});
-//   }
-//
-//   var mongoConnector = new MongoConnector('bfmongodb');
-//   mongoConnector.getAccountsByPersona(req.query.persona, function(err, accounts) {
-//     if(err) {
-//       return res.status(500).json(err.message);
-//     }
-//     else {
-//       console.log(accounts);
-//       return res.status(200).json(accounts);
-//     }
-//   });
-// });
-//
-// router.get('/getServicesByPersona', function(req, res) {
-//   if(req.query.persona == "" || req.query.persona == undefined) {
-//     return res.status(400).json({"Error": "Please specify `persona` as query"});
-//   }
-//
-//   var mongoConnector = new MongoConnector('bfmongodb');
-//   mongoConnector.getServicesByPersona(req.query.persona, function(err, services) {
-//     if(err) {
-//       return res.status(500).json(err.message);
-//     }
-//     else {
-//       console.log(services);
-//       return res.status(200).json(services);
-//     }
-//   });
-// });
 
 router.get('/getAccountsAndServicesByPersona', function (req, res) {
   if (req.query.persona == "" || req.query.persona == undefined) {
@@ -123,7 +85,7 @@ router.get('/getAccountsAndServicesByPersona', function (req, res) {
 router.get('/getDashboardsByService', function(req, res) {
   if(req.query.service == "" || req.query.service == undefined) {
     return res.status(400).json({"Incomplete Request": "Please specify `service` as query"});
-
+  }
 
   var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.getDashboardsByService(req.query.service, function (err, docs) {

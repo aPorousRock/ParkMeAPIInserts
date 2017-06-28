@@ -17,7 +17,7 @@ var kafkaConsumer = function(topic, io) {
     fetchMaxBytes: 1024 * 1024,
     fromOffset: false,
     encoding: 'utf8'
-  }
+  };
   const consumer = new HighLevelConsumer(client, payloads, options);
   const offset = new Offset(client);
 

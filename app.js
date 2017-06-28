@@ -18,11 +18,6 @@ app.use(function(req, res, next){
 
 app.use(routes);
 
-app.listen(5000,'0.0.0.0', function() {
-
+server.listen(5000,'0.0.0.0', function() {
   console.log("API Server running at port 5000");
 });
-
-
-
-

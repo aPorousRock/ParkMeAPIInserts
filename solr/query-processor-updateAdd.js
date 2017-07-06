@@ -1,7 +1,7 @@
 const conf = require('config');
 const request = require('request');
 
-var executeSolrUpdateQuery = function (id, property, propValue, collection, callback) {
+var executeSolrUpdateAddQuery = function (id, property, propValue, collection, callback) {
 
   const url = "http://bfsolr201.innovate.ibm.com" + ":" + "8983" + "/solr/" + "Alerts6"+"/update";
 
@@ -10,10 +10,11 @@ var executeSolrUpdateQuery = function (id, property, propValue, collection, call
     {
       "id": id,
       [property]: {
-        "set": propValue
+        "add": propValue
       }
     }
   ];
+
 
   var options = {
     method: 'POST',
@@ -37,4 +38,4 @@ var executeSolrUpdateQuery = function (id, property, propValue, collection, call
   });
 }
 
-module.exports = executeSolrUpdateQuery;
+module.exports = executeSolrUpdateAddQuery;

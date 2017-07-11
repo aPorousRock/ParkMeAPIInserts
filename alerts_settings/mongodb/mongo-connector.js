@@ -35,7 +35,7 @@ MongoConnector.prototype.getAlertSettingsByPersona = function(persona, callback)
     db.close();
   });
 };
-MongoConnector.prototype.getAlertSettingsByPersonaandDashboard = function(persona,dashboard, callback) {
+MongoConnector.prototype.getAlertSettingsByPersonaAndDashboard = function(persona,dashboard, callback) {
 
   MongoClient.connect(this.mongo_url, function(err, db) {
     if(err){
@@ -66,7 +66,7 @@ MongoConnector.prototype.getAlertSettingsByPersonaandDashboard = function(person
     db.close();
   });
 };
-MongoConnector.prototype.addSettings = function(body, callback) {
+MongoConnector.prototype.addAlertSettings = function(body, callback) {
 //console.log(note);
   MongoClient.connect(this.mongo_url, function(err, db) {
   //  const note=req.body;

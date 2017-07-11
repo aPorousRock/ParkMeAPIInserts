@@ -20,14 +20,14 @@ router.get('/getAlertSettingsByPersona', function (req, res) {
     }
   });
 });
-router.get('/getAlertSettingsByPersonaandDashboard', function (req, res) {
+router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
   if (req.query.persona == "" || req.query.persona == undefined||req.query.dashboard == "" || req.query.dashboard == undefined
 ) {
     return res.status(400).json({ "Error": "Please specify `persona` as query" });
   }
 
   var mongoConnector = new MongoConnector('bfdata');
-  mongoConnector.getAlertSettingsByPersonaandDashboard(req.query.persona,req.query.dashboard, function (err, doc) {
+  mongoConnector.getAlertSettingsByPersonaAndDashboard(req.query.persona,req.query.dashboard, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
@@ -36,14 +36,14 @@ router.get('/getAlertSettingsByPersonaandDashboard', function (req, res) {
     }
   });
 });
-router.post('/addSettings', function (req, res) {
+router.post('/addAlertSettings', function (req, res) {
 // const note=req.body;
 // console.log(note);
 // if (req.body == "" || req.body == undefined) {
 //  return res.status(400).json({ "Error": "" });
 //
   var mongoConnector = new MongoConnector('bfdata');
-  mongoConnector.addSettings(req.body, function (err, doc) {
+  mongoConnector.addAlertSettings(req.body, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }

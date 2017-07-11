@@ -20,6 +20,22 @@ router.get('/getByPersona', function (req, res) {
     }
   });
 });
+router.get('/getByPersonaandDashboard', function (req, res) {
+  if (req.query.persona == "" || req.query.persona == undefined||req.query.dashboard == "" || req.query.dashboard == undefined
+) {
+    return res.status(400).json({ "Error": "Please specify `persona` as query" });
+  }
+
+  var mongoConnector = new MongoConnector('bfdata');
+  mongoConnector.getByPersonaandDashboard(req.query.persona,req.query.dashboard, function (err, doc) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc);
+    }
+  });
+});
 router.post('/addSettings', function (req, res) {
 // const note=req.body;
 // console.log(note);

@@ -35,6 +35,37 @@ MongoConnector.prototype.getByPersona = function(persona, callback) {
     db.close();
   });
 };
+MongoConnector.prototype.getByPersonaandDashboard = function(persona,dashboard, callback) {
+
+  MongoClient.connect(this.mongo_url, function(err, db) {
+    if(err){
+      // console.log("Database connection error");
+      callback({"message":err}, null);
+    }
+    else {
+      //const persona = req.query.persona;
+      db.collection('webapp_settings').find({'persona':persona,'dashboard':dashboard},{"_id": 0}).toArray(function (err, docs){
+        if(err){
+          // console.log(err);
+          db.close();
+          callback({"message": err}, null);
+        }
+
+        if(!docs || docs.length<1){
+          // console.log("No such persona");
+          db.close();
+          callback({"message": "No such record"}, null);
+        }
+        else {
+          db.close();
+          callback(null, docs);
+        }
+      });
+    }
+
+    db.close();
+  });
+};
 MongoConnector.prototype.addSettings = function(body, callback) {
 //console.log(note);
   MongoClient.connect(this.mongo_url, function(err, db) {

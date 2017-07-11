@@ -5,13 +5,13 @@ const router = express.Router();
 const MongoConnector = require('../mongodb/mongo-connector');
 
 
-router.get('/getByPersona', function (req, res) {
+router.get('/getAlertSettingsByPersona', function (req, res) {
   if (req.query.persona == "" || req.query.persona == undefined) {
     return res.status(400).json({ "Error": "Please specify `persona` as query" });
   }
 
   var mongoConnector = new MongoConnector('bfdata');
-  mongoConnector.getByPersona(req.query.persona, function (err, doc) {
+  mongoConnector.getAlertSettingsByPersona(req.query.persona, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
@@ -20,14 +20,14 @@ router.get('/getByPersona', function (req, res) {
     }
   });
 });
-router.get('/getByPersonaandDashboard', function (req, res) {
+router.get('/getAlertSettingsByPersonaandDashboard', function (req, res) {
   if (req.query.persona == "" || req.query.persona == undefined||req.query.dashboard == "" || req.query.dashboard == undefined
 ) {
     return res.status(400).json({ "Error": "Please specify `persona` as query" });
   }
 
   var mongoConnector = new MongoConnector('bfdata');
-  mongoConnector.getByPersonaandDashboard(req.query.persona,req.query.dashboard, function (err, doc) {
+  mongoConnector.getAlertSettingsByPersonaandDashboard(req.query.persona,req.query.dashboard, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }

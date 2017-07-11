@@ -4,7 +4,7 @@ const conf = require('config');
 var MongoConnector = function(bfdata) {
   this.mongo_url = "mongodb://bflogadmin:safe4now@bfmongo201.innovate.ibm.com:27017/bfdata"
 }
-MongoConnector.prototype.getByPersona = function(persona, callback) {
+MongoConnector.prototype.getAlertSettingsByPersona = function(persona, callback) {
 
   MongoClient.connect(this.mongo_url, function(err, db) {
     if(err){
@@ -35,7 +35,7 @@ MongoConnector.prototype.getByPersona = function(persona, callback) {
     db.close();
   });
 };
-MongoConnector.prototype.getByPersonaandDashboard = function(persona,dashboard, callback) {
+MongoConnector.prototype.getAlertSettingsByPersonaandDashboard = function(persona,dashboard, callback) {
 
   MongoClient.connect(this.mongo_url, function(err, db) {
     if(err){

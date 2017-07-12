@@ -3,7 +3,8 @@ const request = require('request');
 
 var executeSolrUpdateQuery = function (id, property, propValue, collection, callback) {
 
-  const url = "http://bfsolr201.innovate.ibm.com" + ":" + "8983" + "/solr/" + "Alerts6"+"/update";
+  
+  const url = "http://bfsolr201.innovate.ibm.com" + ":" + "8983" + "/solr/" + "Alerts6"+"/update?commit=true";
 
 
   var formData = [

@@ -7,10 +7,6 @@ var executeSolrQuery = function(query, collection, aggregationMode, callback) {
     const formData = {
       stmt: query
     };
-            app.render('form', function(err, html){
-             if(err) return res.send(err);
-             else    return res.send(html)             
-         });
     request.post({url:url, form: formData}, function (err, httpResponse, body) {
         if(err) {
           callback(err, null);

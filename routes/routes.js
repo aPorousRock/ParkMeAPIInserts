@@ -123,6 +123,36 @@ router.get('/getAlertSettingsByPersona', function (req, res) {
     }
   });
 });
+router.get('/getAlertsQuickSummaryDataByDate', function (req, res) {
+  if (req.query.date == "" || req.query.date == undefined) {
+    return res.status(400).json({ "Error": "Please specify `persona` as query" });
+  }
+
+  var mongoConnector = new MongoConnector('bfdata');
+  mongoConnector.getAlertsQuickSummaryDataByDate(req.query.date, function (err, doc) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc);
+    }
+  });
+});
+router.get('/getAlertsQuickSummaryData', function (req, res) {
+  if (req.query == "" || req.query == undefined) {
+    return res.status(400).json({ "Error": "Please specify `persona` as query" });
+  }
+
+  var mongoConnector = new MongoConnector('bfdata');
+  mongoConnector.getAlertsQuickSummaryData(req.query, function (err, doc) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc);
+    }
+  });
+});
 router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
   if (req.query.persona == "" || req.query.persona == undefined||req.query.dashboard == "" || req.query.dashboard == undefined
 ) {
@@ -147,6 +177,26 @@ router.post('/addAlertSettings', function (req, res) {
 //
   var mongoConnector = new MongoConnector('bfdata');
   mongoConnector.addAlertSettings(req.body, function (err, doc) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc);
+
+      //  res.send(result.ops[0]);
+
+
+    }
+  });
+});
+router.post('/addAlertQuickSummaryData', function (req, res) {
+// const note=req.body;
+// console.log(note);
+// if (req.body == "" || req.body == undefined) {
+//  return res.status(400).json({ "Error": "" });
+//
+  var mongoConnector = new MongoConnector('bfdata');
+  mongoConnector.addAlertQuickSummaryData(req.body, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }

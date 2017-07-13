@@ -1,5 +1,5 @@
 {
-  "name": "impala-server",
+  "name": "mongo-server",
   "version": "1.0.0",
   "description": "Server to request Impala data over HDFS using node.js",
   "main": "app.js",
@@ -21,5 +21,10 @@
     "node-impala": "^2.0.4",
     "nodemon": "^1.11.0",
     "request": "^2.81.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git@github.ibm.com:CIOCloud/BFAnalyticsAPI.git"
   }
 }

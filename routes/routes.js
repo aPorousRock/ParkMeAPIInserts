@@ -6,6 +6,7 @@ const executeSolrUpdateQuery = require('../solr/query-processor-update');
 const executeSolrUpdateAddQuery = require('../solr/query-processor-updateAdd');
 const executeSolrUpdateIncQuery = require('../solr/query-processor-updateInc');
 const MongoConnector = require('../mongodb/mongo-connector');
+const kafkaConsumer = require('../kafka/kafka-consumer').kafkaConsumer;
 
 router.get('/', function (req, res) {
   res.status(200).json({ "status": "Running", "Server": "Impala" });
@@ -44,7 +45,6 @@ router.get('/solr/executeQuery', function (req, res) {
   });
 
 });
-
 
 router.get('/solr/update', function (req, res) {
   if (req.query.id == "" || req.query.id == undefined ||
@@ -104,44 +104,6 @@ router.get('/solr/updateInc', function (req, res) {
 
 });
 
-
-
-
-
-// router.get('/getAccountsByPersona', function(req, res) {
-//   if(req.query.persona == "" || req.query.persona == undefined) {
-//     return res.status(400).json({"Error": "Please specify `persona` as query"});
-//   }
-//
-//   var mongoConnector = new MongoConnector('bfmongodb');
-//   mongoConnector.getAccountsByPersona(req.query.persona, function(err, accounts) {
-//     if(err) {
-//       return res.status(500).json(err.message);
-//     }
-//     else {
-//       console.log(accounts);
-//       return res.status(200).json(accounts);
-//     }
-//   });
-// });
-//
-// router.get('/getServicesByPersona', function(req, res) {
-//   if(req.query.persona == "" || req.query.persona == undefined) {
-//     return res.status(400).json({"Error": "Please specify `persona` as query"});
-//   }
-//
-//   var mongoConnector = new MongoConnector('bfmongodb');
-//   mongoConnector.getServicesByPersona(req.query.persona, function(err, services) {
-//     if(err) {
-//       return res.status(500).json(err.message);
-//     }
-//     else {
-//       console.log(services);
-//       return res.status(200).json(services);
-//     }
-//   });
-// });
-
 router.get('/getAccountsAndServicesByPersona', function (req, res) {
   if (req.query.persona == "" || req.query.persona == undefined) {
     return res.status(400).json({ "Error": "Please specify `persona` as query" });
@@ -172,6 +134,19 @@ router.get('/getDashboardsByService', function (req, res) {
       return res.status(200).json(docs);
     }
   });
+});
+
+router.get('/getKafkaData', function(req, res, next) {
+  if(req.query.topic == "" || req.query.topic == undefined) {
+    return res.status(400).json({"Incomplete Request": "Please specify `topic` as query"});
+  }
+
+  console.log("Streaming started");
+
+  // Call kafkaConsumer
+  kafkaConsumer(req.query.topic, req.io);
+
+  return res.status(200).json({"response": "Streaming started"});
 });
 
 module.exports = router;

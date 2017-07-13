@@ -7,9 +7,27 @@ const executeSolrUpdateAddQuery = require('../solr/query-processor-updateAdd');
 const executeSolrUpdateIncQuery = require('../solr/query-processor-updateInc');
 const MongoConnector = require('../mongodb/mongo-connector');
 const kafkaConsumer = require('../kafka/kafka-consumer').kafkaConsumer;
+const loginDB = require("../mongodb/login");
+const passport = require('passport');
+const Strategy = require('passport-local').Strategy;
+
+var loginDBobj = new loginDB("bfmongodb");
+loginDBobj.login();
 
 router.get('/', function (req, res) {
-  res.status(200).json({ "status": "Running", "Server": "Impala" });
+  res.status(200).json({ "status": "Running", "Server": "API Fabric" });
+});
+
+router.get('/not', function (req, res) {
+  res.status(200).json({ "status": "Running", "Server": "Error" });
+});
+
+router.post('/login', passport.authenticate('local', { failureRedirect: '/not' }), function(req, res) {
+  // if(req.query.username == "" || req.query.username == undefined || req.query.password == "" || req.query.password == undefined){
+  //   return res.status(400).json({"Error": "No username or password sent"});
+  // }
+
+  res.redirect('/');
 });
 
 router.get('/impala/executeQuery', function (req, res) {

@@ -91,6 +91,7 @@ router.get('/getAlertSettingsByPersona', function (req, res) {
     }
   });
 });
+<<<<<<< HEAD
 router.get('/getLogsByName', function (req, res) {
   if (req.query.adopter_name == "" || req.query.adopter_name == undefined) {
     return res.status(400).json({ "Error": "Please specify `adoptername` as query" });
@@ -157,6 +158,11 @@ router.get('/getLogsByJobIDAndDate', function (req, res) {
 router.get('/getAlertsQuickSummaryDataByDate', function (req, res) {
   if (req.query.date == "" || req.query.date == undefined) {
     return res.status(400).json({ "Error": "Please specify `date` as query" });
+=======
+router.get('/getAlertsQuickSummaryDataByDate', function (req, res) {
+  if (req.query.date == "" || req.query.date == undefined) {
+    return res.status(400).json({ "Error": "Please specify `persona` as query" });
+>>>>>>> 3c66a2b537f3b24f4af074067d6923a4048deb1d
   }
 
   var mongoConnector = new MongoConnector('bfdata');
@@ -171,7 +177,11 @@ router.get('/getAlertsQuickSummaryDataByDate', function (req, res) {
 });
 router.get('/getAlertsQuickSummaryData', function (req, res) {
   if (req.query == "" || req.query == undefined) {
+<<<<<<< HEAD
     return res.status(400).json({ "Error": "Please specify `correct`  query" });
+=======
+    return res.status(400).json({ "Error": "Please specify `persona` as query" });
+>>>>>>> 3c66a2b537f3b24f4af074067d6923a4048deb1d
   }
 
   var mongoConnector = new MongoConnector('bfdata');
@@ -184,6 +194,7 @@ router.get('/getAlertsQuickSummaryData', function (req, res) {
     }
   });
 });
+<<<<<<< HEAD
 router.get('/getAllLogs', function (req, res) {
   if (req.query == "" || req.query == undefined) {
     return res.status(400).json({ "Error": "Please specify `correctlogs`  query" });
@@ -199,6 +210,8 @@ router.get('/getAllLogs', function (req, res) {
     }
   });
 });
+=======
+>>>>>>> 3c66a2b537f3b24f4af074067d6923a4048deb1d
 router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
   if (req.query.persona == "" || req.query.persona == undefined||req.query.dashboard == "" || req.query.dashboard == undefined
 ) {
@@ -256,6 +269,26 @@ router.post('/addLogs', function (req, res) {
       return res.status(200).json(doc);
 
       
+
+
+    }
+  });
+});
+router.post('/addAlertQuickSummaryData', function (req, res) {
+// const note=req.body;
+// console.log(note);
+// if (req.body == "" || req.body == undefined) {
+//  return res.status(400).json({ "Error": "" });
+//
+  var mongoConnector = new MongoConnector('bfdata');
+  mongoConnector.addAlertQuickSummaryData(req.body, function (err, doc) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc);
+
+      //  res.send(result.ops[0]);
 
 
     }

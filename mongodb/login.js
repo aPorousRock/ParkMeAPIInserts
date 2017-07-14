@@ -4,20 +4,9 @@ const conf = require('config');
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require("mongodb").ObjectID;
 
-<<<<<<< HEAD
+
 var loginDB = function(dbname) {
   this.mongo_url = "mongodb://" + conf.MONGO_USERNAME + ":" + conf.MONGO_PASSWORD + "@" + conf.MONGO_HOST + ":" + conf.MONGO_PORT + "/" + dbname + "?authSource=admin";
-<<<<<<< HEAD
-
-=======
-  
-=======
-var loginDB = function(bfdata) {
-  //this.mongo_url = "mongodb://" + conf.MONGO_USERNAME + ":" + conf.MONGO_PASSWORD + "@" + conf.MONGO_HOST + ":" + conf.MONGO_PORT + "/" + dbname + "?authSource=admin";
-  this.mongo_url = "mongodb://bflogadmin:safe4now@bfmongo201.innovate.ibm.com:27017/bfdata";
-
->>>>>>> 50b668a7f0c6fbc711cb893204681b4b3f36ac04
->>>>>>> 1af5dc3f69304cd2728cab9b1b2f4dc819c9748c
 };
 
 loginDB.prototype.login = function() {

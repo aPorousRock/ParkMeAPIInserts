@@ -149,14 +149,28 @@ router.get('/getDashboardsByService', function (req, res) {
     }
   });
 });
+router.get('/getAlertSettings', function (req, res) {
+  if (req.query == "" || req.query == undefined) {
+    return res.status(400).json({ "Error": "Please specify `correct record` as query" });
+  }
 
+  var mongoConnector = new MongoConnector('bfmongodb');
+  mongoConnector.getAlertSettings(req.query, function (err, docm) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(docm);
+    }
+  });
+});
 
 router.get('/getAlertSettingsByPersona', function (req, res) {
   if (req.query.persona == "" || req.query.persona == undefined) {
     return res.status(400).json({ "Error": "Please specify `persona` as query" });
   }
 
-  var mongoConnector = new MongoConnector('bfdata');
+  var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.getAlertSettingsByPersona(req.query.persona, function (err, doc1) {
     if (err) {
       return res.status(500).json(err.message);
@@ -166,12 +180,43 @@ router.get('/getAlertSettingsByPersona', function (req, res) {
     }
   });
 });
+router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
+  if (req.query.persona == "" || req.query.persona == undefined||req.query.dashboard == "" || req.query.dashboard == undefined
+) {
+    return res.status(400).json({ "Error": "Please specify `personaanddashboard as query" });
+  }
+
+  var mongoConnector = new MongoConnector('bfmongodb');
+  mongoConnector.getAlertSettingsByPersonaAndDashboard(req.query.persona,req.query.dashboard, function (err, doc9) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc9);
+    }
+  });
+});
+router.post('/addAlertSettings', function (req, res) {
+
+  var mongoConnector = new MongoConnector('bfmongodb');
+  mongoConnector.addAlertSettings(req.body, function (err, doc) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc);
+
+
+
+    }
+  });
+});
 router.get('/getLogsByName', function (req, res) {
   if (req.query.adopter_name == "" || req.query.adopter_name == undefined) {
     return res.status(400).json({ "Error": "Please specify `name ` as query" });
   }
 
-  var mongoConnector = new MongoConnector('bfdata');
+  var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.getLogsByName(req.query.adopter_name, function (err, doc2) {
     if (err) {
       return res.status(500).json(err.message);
@@ -187,7 +232,7 @@ router.get('/getLogsByNameAndDate', function (req, res) {
     return res.status(400).json({ "Error": "Please specify `name and date ` as query" });
   }
 
-  var mongoConnector = new MongoConnector('bfdata');
+  var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.getLogsByNameAndDate(req.query.adopter_name,req.query.completed_at, function (err, doc3) {
     if (err) {
       return res.status(500).json(err.message);
@@ -203,7 +248,7 @@ router.put('/updateLogsByNameAndDate', function (req, res) {
     return res.status(400).json({ "Error": "Please specify `name and date ` as query" });
   }
 
-  var mongoConnector = new MongoConnector('bfdata');
+  var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.updateLogsByNameAndDate(req.query.adopter_name,req.query.completed_at, function (err, doc4) {
     if (err) {
       return res.status(500).json(err.message);
@@ -219,7 +264,7 @@ router.get('/getLogsByJobIDAndDate', function (req, res) {
     return res.status(400).json({ "Error": "Please specify `jobid and date ` as query" });
   }
 
-  var mongoConnector = new MongoConnector('bfdata');
+  var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.getLogsByJobIDAndDate(req.query.jobID,req.query.completed_at, function (err, doc5) {
     if (err) {
       return res.status(500).json(err.message);
@@ -234,7 +279,7 @@ router.get('/getAlertsQuickSummaryDataByDate', function (req, res) {
     return res.status(400).json({ "Error": "Please specify `date` as query" });
   }
 
-  var mongoConnector = new MongoConnector('bfdata');
+  var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.getAlertsQuickSummaryDataByDate(req.query.date, function (err, doc6) {
     if (err) {
       return res.status(500).json(err.message);
@@ -249,7 +294,7 @@ router.get('/getAlertsQuickSummaryData', function (req, res) {
     return res.status(400).json({ "Error": "Please specify `correct data` as query" });
   }
 
-  var mongoConnector = new MongoConnector('bfdata');
+  var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.getAlertsQuickSummaryData(req.query, function (err, doc7) {
     if (err) {
       return res.status(500).json(err.message);
@@ -264,7 +309,7 @@ router.get('/getAllLogs', function (req, res) {
     return res.status(400).json({ "Error": "Please specify `correct logs` query" });
   }
 
-  var mongoConnector = new MongoConnector('bfdata');
+  var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.getAllLogs(req.query, function (err, doc8) {
     if (err) {
       return res.status(500).json(err.message);
@@ -274,40 +319,10 @@ router.get('/getAllLogs', function (req, res) {
     }
   });
 });
-router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
-  if (req.query.persona == "" || req.query.persona == undefined||req.query.dashboard == "" || req.query.dashboard == undefined
-) {
-    return res.status(400).json({ "Error": "Please specify `personaanddashboard as query" });
-  }
 
-  var mongoConnector = new MongoConnector('bfdata');
-  mongoConnector.getAlertSettingsByPersonaAndDashboard(req.query.persona,req.query.dashboard, function (err, doc9) {
-    if (err) {
-      return res.status(500).json(err.message);
-    }
-    else {
-      return res.status(200).json(doc9);
-    }
-  });
-});
-router.post('/addAlertSettings', function (req, res) {
-
-  var mongoConnector = new MongoConnector('bfdata');
-  mongoConnector.addAlertSettings(req.body, function (err, doc) {
-    if (err) {
-      return res.status(500).json(err.message);
-    }
-    else {
-      return res.status(200).json(doc);
-
-
-
-    }
-  });
-});
 router.post('/addAlertQuickSummaryData', function (req, res) {
 
-  var mongoConnector = new MongoConnector('bfdata');
+  var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.addAlertQuickSummaryData(req.body, function (err, doc10) {
     if (err) {
       return res.status(500).json(err.message);
@@ -323,7 +338,7 @@ router.post('/addAlertQuickSummaryData', function (req, res) {
 });
 router.post('/addLogs', function (req, res) {
 
-  var mongoConnector = new MongoConnector('bfdata');
+  var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.addLogs(req.body, function (err, doc11) {
     if (err) {
       return res.status(500).json(err.message);
@@ -334,6 +349,7 @@ router.post('/addLogs', function (req, res) {
 
 
     }
+  });
   });
 
 router.get('/getKafkaData', function(req, res, next) {

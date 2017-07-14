@@ -4,7 +4,8 @@ const conf = require('config');
 var MongoConnector = function(bfdata) {
  this.mongo_url = "mongodb://" + conf.MONGO_USERNAME + ":" + conf.MONGO_PASSWORD + "@" + conf.MONGO_HOST + ":" + conf.MONGO_PORT + "/" + dbname + "?authSource=admin";
  //this.mongo_url_alerts = "mongodb://bflogadmin:safe4now@bfmongo201.innovate.ibm.com:27017/bfdata";
-  //this.mongo_url_alerts = "mongodb://bflogadmin:safe4now@bfmongo201.innovate.ibm.com:27017/bfdata";
+// this.mongo_url = "mongodb://bflogadmin:safe4now@bfmongo201.innovate.ibm.com:27017/bfdata";
+
 }
 
 
@@ -286,6 +287,37 @@ MongoConnector.prototype.getAllLogs = function(query,callback) {
     db.close();
   });
 };
+MongoConnector.prototype.getAlertSettings = function(query,callback) {
+
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
+    if(err){
+
+      callback({"message":err}, null);
+    }
+    else {
+
+      db.collection('webapp_settings').find({},{"_id": 0}).toArray(function (err, docs){
+        if(err){
+
+          db.close();
+          callback({"message": err}, null);
+        }
+
+        if(!docs || docs.length<1){
+
+          db.close();
+          callback({"message": "No such record"}, null);
+        }
+        else {
+          db.close();
+          callback(null, docs);
+        }
+      });
+    }
+
+    db.close();
+  });
+};
 MongoConnector.prototype.getAlertsQuickSummaryDataByDate = function(date,callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {
@@ -442,7 +474,7 @@ MongoConnector.prototype.addAlertQuickSummaryData = function(body, callback) {
         }
         else {
           db.close();
-        
+
           callback(null, docs);
         }
       });

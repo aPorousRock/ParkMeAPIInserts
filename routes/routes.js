@@ -149,7 +149,21 @@ router.get('/getDashboardsByService', function (req, res) {
     }
   });
 });
+router.get('/getAlertSettings', function (req, res) {
+  if (req.query == "" || req.query == undefined) {
+    return res.status(400).json({ "Error": "Please specify `correct record` as query" });
+  }
 
+  var mongoConnector = new MongoConnector('bfdata');
+  mongoConnector.getAlertSettings(req.query, function (err, docm) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(docm);
+    }
+  });
+});
 
 router.get('/getAlertSettingsByPersona', function (req, res) {
   if (req.query.persona == "" || req.query.persona == undefined) {
@@ -163,6 +177,37 @@ router.get('/getAlertSettingsByPersona', function (req, res) {
     }
     else {
       return res.status(200).json(doc1);
+    }
+  });
+});
+router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
+  if (req.query.persona == "" || req.query.persona == undefined||req.query.dashboard == "" || req.query.dashboard == undefined
+) {
+    return res.status(400).json({ "Error": "Please specify `personaanddashboard as query" });
+  }
+
+  var mongoConnector = new MongoConnector('bfdata');
+  mongoConnector.getAlertSettingsByPersonaAndDashboard(req.query.persona,req.query.dashboard, function (err, doc9) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc9);
+    }
+  });
+});
+router.post('/addAlertSettings', function (req, res) {
+
+  var mongoConnector = new MongoConnector('bfdata');
+  mongoConnector.addAlertSettings(req.body, function (err, doc) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc);
+
+
+
     }
   });
 });
@@ -274,37 +319,7 @@ router.get('/getAllLogs', function (req, res) {
     }
   });
 });
-router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
-  if (req.query.persona == "" || req.query.persona == undefined||req.query.dashboard == "" || req.query.dashboard == undefined
-) {
-    return res.status(400).json({ "Error": "Please specify `personaanddashboard as query" });
-  }
 
-  var mongoConnector = new MongoConnector('bfdata');
-  mongoConnector.getAlertSettingsByPersonaAndDashboard(req.query.persona,req.query.dashboard, function (err, doc9) {
-    if (err) {
-      return res.status(500).json(err.message);
-    }
-    else {
-      return res.status(200).json(doc9);
-    }
-  });
-});
-router.post('/addAlertSettings', function (req, res) {
-
-  var mongoConnector = new MongoConnector('bfdata');
-  mongoConnector.addAlertSettings(req.body, function (err, doc) {
-    if (err) {
-      return res.status(500).json(err.message);
-    }
-    else {
-      return res.status(200).json(doc);
-
-
-
-    }
-  });
-});
 router.post('/addAlertQuickSummaryData', function (req, res) {
 
   var mongoConnector = new MongoConnector('bfdata');
@@ -334,6 +349,7 @@ router.post('/addLogs', function (req, res) {
 
 
     }
+  });
   });
 
 router.get('/getKafkaData', function(req, res, next) {

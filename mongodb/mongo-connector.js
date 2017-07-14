@@ -3,10 +3,7 @@ const conf = require('config');
 
 var MongoConnector = function(dbname) {
  this.mongo_url = "mongodb://" + conf.MONGO_USERNAME + ":" + conf.MONGO_PASSWORD + "@" + conf.MONGO_HOST + ":" + conf.MONGO_PORT + "/" + dbname + "?authSource=admin";
-<<<<<<< HEAD
-=======
 
->>>>>>> 1af5dc3f69304cd2728cab9b1b2f4dc819c9748c
  this.mongo_url_alerts = "mongodb://bflogadmin:safe4now@bfmongo201.innovate.ibm.com:27017/bfdata";
 }
 

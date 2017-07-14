@@ -33,6 +33,7 @@ loginDB.prototype.login = function() {
               return callback(null, false);
             }
 
+            //drop the password
             delete user[0].password;
 
             return callback(null, user[0]);

@@ -18,7 +18,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/incorrectlogin', function (req, res) {
-  res.status(401).json({ "Error": "Incorrect Username/Password" });
+  res.status(401).json({ "Error": "You have entered an invalid username or password" });
 });
 
 router.post('/login', passport.authenticate('local', { failureRedirect: '/incorrectlogin' }), function(req, res) {

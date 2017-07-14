@@ -154,7 +154,11 @@ router.get('/getAlertSettings', function (req, res) {
     return res.status(400).json({ "Error": "Please specify `correct record` as query" });
   }
 
+<<<<<<< HEAD
   var mongoConnector = new MongoConnector('bfmongodb');
+=======
+  var mongoConnector = new MongoConnector('bfdata');
+>>>>>>> 50b668a7f0c6fbc711cb893204681b4b3f36ac04
   mongoConnector.getAlertSettings(req.query, function (err, docm) {
     if (err) {
       return res.status(500).json(err.message);
@@ -186,7 +190,11 @@ router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
     return res.status(400).json({ "Error": "Please specify `personaanddashboard as query" });
   }
 
+<<<<<<< HEAD
   var mongoConnector = new MongoConnector('bfmongodb');
+=======
+  var mongoConnector = new MongoConnector('bfdata');
+>>>>>>> 50b668a7f0c6fbc711cb893204681b4b3f36ac04
   mongoConnector.getAlertSettingsByPersonaAndDashboard(req.query.persona,req.query.dashboard, function (err, doc9) {
     if (err) {
       return res.status(500).json(err.message);
@@ -198,7 +206,11 @@ router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
 });
 router.post('/addAlertSettings', function (req, res) {
 
+<<<<<<< HEAD
   var mongoConnector = new MongoConnector('bfmongodb');
+=======
+  var mongoConnector = new MongoConnector('bfdata');
+>>>>>>> 50b668a7f0c6fbc711cb893204681b4b3f36ac04
   mongoConnector.addAlertSettings(req.body, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);

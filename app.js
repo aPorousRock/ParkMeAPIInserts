@@ -11,15 +11,17 @@ const server = http.Server(app);
 const socketIO = io(server);
 
 app.use(cors());
-app.use(function(req, res, next){
-  req.io = socketIO;
-  next();
-});
+
 
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(function(req, res, next){
+  req.io = socketIO;
+  next();
+});
 
 app.use(routes);
 

@@ -31,11 +31,11 @@ app.use(passport.session());
 app.use(routes);
 
 
-app.listen(5000,'0.0.0.0', function() {
-  
+// app.listen(8050,'0.0.0.0', function() {
+// console.log("port 5000 running");
+// })
 
-server.listen(5000,'0.0.0.0', function() {
+server.listen(8050,'0.0.0.0', function() {
   console.log("API Server running at port 5000");
 
 });
-

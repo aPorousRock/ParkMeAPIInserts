@@ -9,25 +9,21 @@ const MongoConnector = require('../mongodb/mongo-connector');
 const kafkaConsumer = require('../kafka/kafka-consumer').kafkaConsumer;
 const loginDB = require("../mongodb/login");
 const passport = require('passport');
-const Strategy = require('passport-local').Strategy;
 
 var loginDBobj = new loginDB("bfmongodb");
 loginDBobj.login();
 
 router.get('/', function (req, res) {
-  res.status(200).json({ "status": "Running", "Server": "API Fabric" });
+  return res.status(200).json({ "status": "Running", "Server": "API Fabric" });
 });
 
-router.get('/not', function (req, res) {
-  res.status(200).json({ "status": "Running", "Server": "Error" });
+router.get('/incorrectlogin', function (req, res) {
+  res.status(401).json({ "Error": "Incorrect Username/Password" });
 });
 
-router.post('/login', passport.authenticate('local', { failureRedirect: '/not' }), function(req, res) {
-  // if(req.query.username == "" || req.query.username == undefined || req.query.password == "" || req.query.password == undefined){
-  //   return res.status(400).json({"Error": "No username or password sent"});
-  // }
-
-  res.redirect('/');
+router.post('/login', passport.authenticate('local', { failureRedirect: '/incorrectlogin' }), function(req, res) {
+  // Successful Login
+  res.status(200).json({"user": req.user});
 });
 
 router.get('/impala/executeQuery', function (req, res) {

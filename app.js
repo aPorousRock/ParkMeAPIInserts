@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(routes);
+
 
 
 // app.listen(8050,'0.0.0.0', function() {

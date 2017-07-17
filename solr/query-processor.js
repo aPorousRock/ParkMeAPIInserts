@@ -2,7 +2,7 @@ const conf = require('config');
 const request = require('request');
 
 var executeSolrQuery = function(query, collection, aggregationMode, callback) {
-    
+
  const url = conf.SOLR_HOST + ":" + conf.SOLR_PORT + "/solr/" + collection + "/sql?aggregationMode=" + aggregationMode;
     const formData = {
       stmt: query
@@ -12,7 +12,13 @@ var executeSolrQuery = function(query, collection, aggregationMode, callback) {
           callback(err, null);
         }
 
-        callback(null, JSON.parse(body));
+        try {
+          callback(null, JSON.parse(body));
+        }
+        catch(err) {
+          console.log("Error");
+          callback(err, null);
+        }
    });
 };
 

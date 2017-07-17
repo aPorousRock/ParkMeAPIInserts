@@ -51,13 +51,12 @@ router.get('/solr/executeQuery', function (req, res) {
 
   executeSolrQuery(req.query.query, req.query.collection, req.query.aggregationMode, function (err, results) {
     if (err) {
-      return res.status(500).json(err.message);
+      return res.status(500).json(err.message)
     }
     else {
       return res.status(200).json(results);
     }
   });
-
 });
 
 router.get('/solr/update', function (req, res) {

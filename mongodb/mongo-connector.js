@@ -3,7 +3,7 @@ const conf = require('config');
 
 var MongoConnector = function(dbname) {
  this.mongo_url = "mongodb://" + conf.MONGO_USERNAME + ":" + conf.MONGO_PASSWORD + "@" + conf.MONGO_HOST + ":" + conf.MONGO_PORT + "/" + dbname + "?authSource=admin";
- this.mongo_url = "mongodb://bflogadmin:safe4now@bfmongo201.innovate.ibm.com:27017/bfdata";
+ this.mongo_url_alerts = "mongodb://bflogadmin:safe4now@bfmongo201.innovate.ibm.com:27017/bfdata";
 }
 
 
@@ -70,7 +70,7 @@ MongoConnector.prototype.getDashboardsByService = function(service, callback) {
 
 MongoConnector.prototype.getAlertSettingsByPersona = function(persona, callback) {
 
-  MongoClient.connect(this.mongo_url, function(err, db) {
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
 
       callback({"message":err}, null);
@@ -101,7 +101,7 @@ MongoConnector.prototype.getAlertSettingsByPersona = function(persona, callback)
 };
 MongoConnector.prototype.getLogsByName = function(adopter_name, callback) {
 
-  MongoClient.connect(this.mongo_url, function(err, db) {
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
 
       callback({"message":err}, null);
@@ -132,7 +132,7 @@ MongoConnector.prototype.getLogsByName = function(adopter_name, callback) {
 };
 MongoConnector.prototype.getLogsByNameAndDate = function(adopter_name,completed_at, callback) {
 
-  MongoClient.connect(this.mongo_url, function(err, db) {
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
 
       callback({"message":err}, null);
@@ -163,7 +163,7 @@ MongoConnector.prototype.getLogsByNameAndDate = function(adopter_name,completed_
 };
 MongoConnector.prototype.updateLogsByNameAndDate = function(adopter_name,completed_at, callback) {
 
-  MongoClient.connect(this.mongo_url, function(err, db) {
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
 
       callback({"message":err}, null);
@@ -194,7 +194,7 @@ MongoConnector.prototype.updateLogsByNameAndDate = function(adopter_name,complet
 };
 MongoConnector.prototype.getLogsByJobIDAndDate = function(jobID,completed_at, callback) {
 
-  MongoClient.connect(this.mongo_url, function(err, db) {
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
 
       callback({"message":err}, null);
@@ -225,7 +225,7 @@ MongoConnector.prototype.getLogsByJobIDAndDate = function(jobID,completed_at, ca
 };
 MongoConnector.prototype.getAlertsQuickSummaryData = function(query,callback) {
 
-  MongoClient.connect(this.mongo_url, function(err, db) {
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
 
       callback({"message":err}, null);
@@ -256,7 +256,7 @@ MongoConnector.prototype.getAlertsQuickSummaryData = function(query,callback) {
 };
 MongoConnector.prototype.getAllLogs = function(query,callback) {
 
-  MongoClient.connect(this.mongo_url, function(err, db) {
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
 
       callback({"message":err}, null);
@@ -287,7 +287,7 @@ MongoConnector.prototype.getAllLogs = function(query,callback) {
 };
 MongoConnector.prototype.getAlertSettings = function(query,callback) {
 
-  MongoClient.connect(this.mongo_url, function(err, db) {
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
 
       callback({"message":err}, null);
@@ -318,7 +318,7 @@ MongoConnector.prototype.getAlertSettings = function(query,callback) {
 };
 MongoConnector.prototype.getAlertsQuickSummaryDataByDate = function(date,callback) {
 
-  MongoClient.connect(this.mongo_url, function(err, db) {
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
 
       callback({"message":err}, null);
@@ -349,7 +349,7 @@ MongoConnector.prototype.getAlertsQuickSummaryDataByDate = function(date,callbac
 };
 MongoConnector.prototype.getAlertSettingsByPersonaAndDashboard = function(persona,dashboard, callback) {
 
-  MongoClient.connect(this.mongo_url, function(err, db) {
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
 
       callback({"message":err}, null);
@@ -380,7 +380,7 @@ MongoConnector.prototype.getAlertSettingsByPersonaAndDashboard = function(person
 };
 MongoConnector.prototype.addAlertSettings = function(body, callback) {
 
-  MongoClient.connect(this.mongo_url, function(err, db) {
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
 
     if(err){
 
@@ -414,7 +414,7 @@ MongoConnector.prototype.addAlertSettings = function(body, callback) {
 };
 MongoConnector.prototype.addLogs = function(body, callback) {
 
-  MongoClient.connect(this.mongo_url, function(err, db) {
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
 
     if(err){
 
@@ -448,7 +448,7 @@ MongoConnector.prototype.addLogs = function(body, callback) {
 };
 MongoConnector.prototype.addAlertQuickSummaryData = function(body, callback) {
 
-  MongoClient.connect(this.mongo_url, function(err, db) {
+  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
 
     if(err){
 

@@ -6,6 +6,7 @@ const executeSolrUpdateQuery = require('../solr/query-processor-update');
 const executeSolrUpdateAddQuery = require('../solr/query-processor-updateAdd');
 const executeSolrUpdateIncQuery = require('../solr/query-processor-updateInc');
 const MongoConnector = require('../mongodb/mongo-connector');
+const AlertsMongoConnector = require('../mongodb/alert-reduce.js');
 const kafkaConsumer = require('../kafka/kafka-consumer').kafkaConsumer;
 const loginDB = require("../mongodb/login");
 const passport = require('passport');
@@ -160,6 +161,22 @@ router.get('/getKafkaData', function(req, res, next) {
   kafkaConsumer(req.query.topic, req.io);
 
   return res.status(200).json({"response": "Streaming started"});
+});
+
+router.get('/getReducedAlertsByDate', function(req, res, next) {
+  if(req.query.date == "" || req.query.date == undefined) {
+    return res.status(400).json({"Incomplete Request": "Please specify `date` as query"});
+  }
+
+  var mongoConnector = new AlertsMongoConnector('bfmongodb');
+  mongoConnector.getReducedAlertsByDate(req.query.date, function (err, docs) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(docs);
+    }
+  });
 });
 
 module.exports = router;

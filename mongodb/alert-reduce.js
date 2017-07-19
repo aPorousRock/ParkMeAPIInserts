@@ -15,23 +15,12 @@ AlertsMongoConnector.prototype.getReducedAlertsByDate = function(date, callback)
     else {
       db.collection('reduced_alerts').find({"date": date}, {"_id": 0}).toArray(function(err, docs) {
         if(err){
-          // console.log(err);
           db.close();
           callback({"message": err}, null);
         }
-
-        if(!docs || docs.length<1){
-          // console.log("No such persona");
-          db.close();
-          callback({"message": "No data for date " + date}, null);
-        }
-        else {
-          db.close();
           callback(null, docs);
-        }
       });
     }
-
     db.close();
   });
 };

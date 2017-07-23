@@ -316,6 +316,7 @@ MongoConnector.prototype.getAlertSettings = function(query,callback) {
     db.close();
   });
 };
+<<<<<<< HEAD
 MongoConnector.prototype.updateAlertSettings = function(persona, callback) {
 
 
@@ -348,6 +349,8 @@ MongoConnector.prototype.updateAlertSettings = function(persona, callback) {
     db.close();
   });
 };
+=======
+>>>>>>> 956a21a491804109adf50ea85c8d8c92ac4d8cfa
 MongoConnector.prototype.getAlertsQuickSummaryDataByDate = function(date,callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {

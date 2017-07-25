@@ -368,7 +368,7 @@ router.get('/getKafkaData', function(req, res, next) {
 
 router.get('/getReducedAlertsByDateAndType', function(req, res, next) {
   if(req.query.date == "" || req.query.date == undefined || req.query.job_type == "" || req.query.job_type == undefined) {
-    return res.status(400).json({"Incomplete Request": "Please specify `date` and `type` as query"});
+    return res.status(400).json({"Incomplete Request": "Please specify `date` and `job_type` as query"});
   }
 
   var mongoConnector = new AlertsMongoConnector('bfmongodb');

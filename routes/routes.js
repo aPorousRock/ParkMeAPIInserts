@@ -7,7 +7,7 @@ const executeSolrUpdateAddQuery = require('../solr/query-processor-updateAdd');
 const executeSolrUpdateIncQuery = require('../solr/query-processor-updateInc');
 const MongoConnector = require('../mongodb/mongo-connector');
 const AlertsMongoConnector = require('../mongodb/alert-reduce.js');
-const kafkaConsumer = require('../kafka/kafka-consumer').kafkaConsumer;
+const kafkaConsumer = require('../kafka/kafka-consumer');
 const loginDB = require("../mongodb/login");
 const passport = require('passport');
 
@@ -366,13 +366,13 @@ router.get('/getKafkaData', function(req, res, next) {
 
 });
 
-router.get('/getReducedAlertsByDate', function(req, res, next) {
-  if(req.query.date == "" || req.query.date == undefined) {
-    return res.status(400).json({"Incomplete Request": "Please specify `date` as query"});
+router.get('/getReducedAlertsByDateAndType', function(req, res, next) {
+  if(req.query.date == "" || req.query.date == undefined || req.query.job_type == "" || req.query.job_type == undefined) {
+    return res.status(400).json({"Incomplete Request": "Please specify `date` and `type` as query"});
   }
 
   var mongoConnector = new AlertsMongoConnector('bfmongodb');
-  mongoConnector.getReducedAlertsByDate(req.query.date, function (err, docs) {
+  mongoConnector.getReducedAlertsByDate(req.query.date, req.query.job_type, function (err, docs) {
     if (err) {
       return res.status(500).json(err.message);
     }

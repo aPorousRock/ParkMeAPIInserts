@@ -4,12 +4,12 @@ const HighLevelConsumer = kafka.HighLevelConsumer;
 const Offset = kafka.Offset;
 const Client = kafka.Client;
 
-var kafkaConsumer = function(topic, io) {
+var kafkaConsumerEnriched = function(topic, io) {
 
-  const client = new Client(conf.ZOOKEEPER, 'client-1511');
+  const client = new Client(conf.ZOOKEEPER, 'client-1645');
   const payloads = [{ "topic": topic}];
   const options = {
-    groupId: 'kafka-node-group',
+    groupId: 'kafka-node-group45',
     autoCommit: true,
     autoCommitIntervalMs: 5000,
     fetchMaxWaitMs: 100,
@@ -32,13 +32,13 @@ var kafkaConsumer = function(topic, io) {
   });
 
   consumer.on('message', function(message) {
-    const value = JSON.parse(message.value);
-    messages.push(JSON.stringify(value.payload.message));
-    if(messages.length == 50){
-      io.emit("message", messages);
-      messages = [];
-    }
-  });
+      const value = JSON.parse(message.value);
+      messages.push(JSON.stringify(value));
+      if(messages.length == 10){
+        io.emit("enrichedmessage", messages);
+        messages = [];
+      }
+    });
 
   consumer.on('error', function(err) {
     console.log(err);
@@ -46,4 +46,4 @@ var kafkaConsumer = function(topic, io) {
 
 };
 
-module.exports = kafkaConsumer;
+module.exports = kafkaConsumerEnriched;

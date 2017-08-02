@@ -7,7 +7,8 @@ const executeSolrUpdateAddQuery = require('../solr/query-processor-updateAdd');
 const executeSolrUpdateIncQuery = require('../solr/query-processor-updateInc');
 const MongoConnector = require('../mongodb/mongo-connector');
 const AlertsMongoConnector = require('../mongodb/alert-reduce.js');
-const kafkaConsumer = require('../kafka/kafka-consumer');
+const kafkaConsumerRaw = require('../kafka/kafka-consumer-raw');
+const kafkaConsumerEnriched = require('../kafka/kafka-consumer-enriched');
 const loginDB = require("../mongodb/login");
 const passport = require('passport');
 
@@ -352,19 +353,33 @@ router.post('/addLogs', function (req, res) {
   });
   });
 
-router.get('/getKafkaData', function(req, res, next) {
-  if(req.query.topic == "" || req.query.topic == undefined) {
-    return res.status(400).json({"Incomplete Request": "Please specify `topic` as query"});
-  }
+/* This function gets the streaming data for raw logs */
+  router.get('/startStreamingRaw', function(req, res, next) {
+    if(req.query.topic == "" || req.query.topic == undefined) {
+      return res.status(400).json({"Incomplete Request": "Please specify `topic` as query"});
+    }
 
-  console.log("Streaming started");
+    console.log("Streaming started for raw");
 
-  // Call kafkaConsumer
-  kafkaConsumer(req.query.topic, req.io);
+    // Call kafkaConsumerRaw
+    kafkaConsumerRaw(req.query.topic, req.io);
 
-  return res.status(200).json({"response": "Streaming started"});
+    return res.status(200).json({"response": "Streaming started"});
+  });
 
-});
+/* This function gets the streaming data for enriched logs */
+  router.get('/startStreamingEnriched', function(req, res, next) {
+    if(req.query.topic == "" || req.query.topic == undefined) {
+      return res.status(400).json({"Incomplete Request": "Please specify `topic` as query"});
+    }
+
+    console.log("Streaming started for enriched");
+
+    // Call kafkaConsumerEnriched
+    kafkaConsumerEnriched(req.query.topic, req.io);
+
+    return res.status(200).json({"response": "Streaming started"});
+  });
 
 router.get('/getReducedAlertsByDateAndType', function(req, res, next) {
   if(req.query.date == "" || req.query.date == undefined || req.query.job_type == "" || req.query.job_type == undefined) {

@@ -13,6 +13,7 @@ const Consumer = require('../kafka/kafka-consumer-buffered');
 const loginDB = require("../mongodb/login");
 const passport = require('passport');
 
+var consumer;
 var loginDBobj = new loginDB("bfmongodb");
 loginDBobj.login();
 
@@ -382,16 +383,14 @@ router.post('/addLogs', function (req, res) {
     return res.status(200).json({"response": "Streaming started"});
   });
 
+
+/* This function gets the streaming data */
   router.get('/startStreamingBuffered', function(req, res, next) {
     if(req.query.topic == "" || req.query.topic == undefined) {
       return res.status(400).json({"Incomplete Request": "Please specify `topic` as query"});
     }
-
-    console.log("Streaming started for buffered");
+    consumer = null;
     consumer = new Consumer(req.query.topic, req.io);
-
-    // Call kafkaConsumerEnriched
-  //  Consumer(req.query.topic, req.io);
 
     return res.status(200).json({"response": "Streaming started"});
   });

@@ -316,7 +316,7 @@ MongoConnector.prototype.getAlertSettings = function(query,callback) {
     db.close();
   });
 };
-MongoConnector.prototype.updateAlertSettings = function(persona,body,callback) {
+MongoConnector.prototype.updateAlertSettings = function(persona, body, callback) {
 
 console.log(JSON.stringify(body));
  MongoClient.connect(this.mongo_url_alerts, function(err, db) {

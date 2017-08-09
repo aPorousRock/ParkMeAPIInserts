@@ -6,7 +6,6 @@ var MongoConnector = function(dbname) {
  this.mongo_url_alerts = "mongodb://bflogadmin:safe4now@bfmongo201.innovate.ibm.com:27017/bfdata";
 }
 
-
 MongoConnector.prototype.getAccountsAndServicesByPersona = function(persona, callback) {
 
   MongoClient.connect(this.mongo_url, function(err, db) {
@@ -130,7 +129,7 @@ MongoConnector.prototype.getLogsByName = function(adopter_name, callback) {
     db.close();
   });
 };
-MongoConnector.prototype.getLogsByNameAndDate = function(adopter_name,completed_at, callback) {
+MongoConnector.prototype.getLogsByNameAndDate = function(adopter_name, completed_at, callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
@@ -161,7 +160,7 @@ MongoConnector.prototype.getLogsByNameAndDate = function(adopter_name,completed_
     db.close();
   });
 };
-MongoConnector.prototype.updateLogsByNameAndDate = function(adopter_name,completed_at, callback) {
+MongoConnector.prototype.updateLogsByNameAndDate = function(adopter_name, completed_at, callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
@@ -192,7 +191,7 @@ MongoConnector.prototype.updateLogsByNameAndDate = function(adopter_name,complet
     db.close();
   });
 };
-MongoConnector.prototype.getLogsByJobIDAndDate = function(jobID,completed_at, callback) {
+MongoConnector.prototype.getLogsByJobIDAndDate = function(jobID, completed_at, callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
@@ -326,7 +325,6 @@ MongoConnector.prototype.updateAlertSettings = function(persona, body, callback)
     else {
 
       db.collection('webapp_settings').update({"persona": persona}, body[0], {upsert:true},(err, docs)=>{
-        console.log(docs);
         if(err){
 
           db.close();
@@ -347,7 +345,7 @@ MongoConnector.prototype.updateAlertSettings = function(persona, body, callback)
 });
 }
 
-MongoConnector.prototype.getAlertsQuickSummaryDataByDate = function(date,callback) {
+MongoConnector.prototype.getAlertsQuickSummaryDataByDate = function(date, callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
@@ -378,7 +376,7 @@ MongoConnector.prototype.getAlertsQuickSummaryDataByDate = function(date,callbac
     db.close();
   });
 };
-MongoConnector.prototype.getAlertSettingsByPersonaAndDashboard = function(persona,dashboard, callback) {
+MongoConnector.prototype.getAlertSettingsByPersonaAndDashboard = function(persona, dashboard, callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){

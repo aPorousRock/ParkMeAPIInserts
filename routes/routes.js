@@ -374,7 +374,6 @@ router.get('/getReducedAlertsByDateAndType', function(req, res, next) {
   var mongoConnector = new AlertsMongoConnector('bfmongodb');
   mongoConnector.getReducedAlertsByDateAndType(req.query.date, req.query.job_type, function (err, docs) {
     if (err) {
-      console.log(err);
       return res.status(500).json(err.message);
     }
     else {

@@ -6,13 +6,10 @@ const executeSolrUpdateQuery = require('../solr/query-processor-update');
 const executeSolrUpdateAddQuery = require('../solr/query-processor-updateAdd');
 const executeSolrUpdateIncQuery = require('../solr/query-processor-updateInc');
 const MongoConnector = require('../mongodb/mongo-connector');
-
 const kafkaConsumer = require('../kafka/kafka-consumer').kafkaConsumer;
-
 const AlertsMongoConnector = require('../mongodb/alert-reduce.js');
 const kafkaConsumerRaw = require('../kafka/kafka-consumer-raw');
 const kafkaConsumerEnriched = require('../kafka/kafka-consumer-enriched');
-
 const loginDB = require("../mongodb/login");
 const passport = require('passport');
 
@@ -418,6 +415,5 @@ router.get('/getReducedAlertsByDateAndType', function(req, res, next) {
     }
   });
 });
-
 
 module.exports = router;

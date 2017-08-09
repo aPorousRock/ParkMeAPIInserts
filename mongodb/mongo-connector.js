@@ -316,10 +316,9 @@ MongoConnector.prototype.getAlertSettings = function(query,callback) {
     db.close();
   });
 };
-<<<<<<< HEAD
-MongoConnector.prototype.updateAlertSettings = function(persona, callback) {
+MongoConnector.prototype.updateAlertSettings = function(persona,body,callback) {
 
-
+console.log(JSON.stringify(body));
  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
 
@@ -327,7 +326,8 @@ MongoConnector.prototype.updateAlertSettings = function(persona, callback) {
     }
     else {
 
-      db.collection('webapp_settings').update({'persona':"adopter111"},{$set:{"dashboard":"alert_explorersss"}},(err, docs)=>{
+      db.collection('webapp_settings').update({"persona": persona}, body[0], {upsert:true},(err, docs)=>{
+        console.log(docs);
         if(err){
 
           db.close();
@@ -345,12 +345,9 @@ MongoConnector.prototype.updateAlertSettings = function(persona, callback) {
         }
       });
     }
+});
+}
 
-    db.close();
-  });
-};
-=======
->>>>>>> 956a21a491804109adf50ea85c8d8c92ac4d8cfa
 MongoConnector.prototype.getAlertsQuickSummaryDataByDate = function(date,callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {
@@ -423,7 +420,7 @@ MongoConnector.prototype.addAlertSettings = function(body, callback) {
     }
     else {
 
-      db.collection('webapp_settings').findAndModify(body,upsert=true, (err, docs) => {
+      db.collection('webapp_settings').insert(body, (err, docs) => {
 
         if(err){
 
@@ -447,6 +444,7 @@ MongoConnector.prototype.addAlertSettings = function(body, callback) {
     db.close();
   });
 };
+
 MongoConnector.prototype.addLogs = function(body, callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {

@@ -222,6 +222,13 @@ router.put('/updateAlertSettings', function (req, res) {
 
   var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.updateAlertSettings(req.query.persona,req.body[0],function (err, doc) {
+      try {
+          JSON.parse(doc);
+          console.log("Valid JSON");
+          } 
+      catch (e) {
+          console.log("not JSON");
+                }
     if (err) {
       return res.status(500).json(err.message);
     }

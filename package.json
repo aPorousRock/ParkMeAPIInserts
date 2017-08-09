@@ -1,9 +1,6 @@
 {
-<<<<<<< HEAD
-  "name": "BFAnalyticsAPI",
-=======
-  "name": "impala-server",
->>>>>>> 956a21a491804109adf50ea85c8d8c92ac4d8cfa
+ "name": "impala-server",
+
   "version": "1.0.0",
   "description": "Server to request Impala data over HDFS using node.js",
   "main": "app.js",

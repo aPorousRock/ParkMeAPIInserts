@@ -324,7 +324,7 @@ MongoConnector.prototype.updateAlertSettings = function(persona, body, callback)
     }
     else {
 
-      db.collection('webapp_settings').update({"persona": persona}, body[0], {upsert:true},(err, docs)=>{
+      db.collection('webapp_settings').update({"persona": persona}, body, {upsert:true},(err, docs)=>{
         if(err){
 
           db.close();

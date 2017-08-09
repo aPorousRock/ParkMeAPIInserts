@@ -5,7 +5,7 @@ var AlertsMongoConnector = function(dbname) {
   this.mongo_url = "mongodb://" + conf.MONGO_USERNAME + ":" + conf.MONGO_PASSWORD + "@" + conf.MONGO_HOST + ":" + conf.MONGO_PORT + "/" + dbname + "?authSource=admin";
 }
 
-AlertsMongoConnector.prototype.getReducedAlertsByDate = function(date, job_type, callback) {
+AlertsMongoConnector.prototype.getReducedAlertsByDateAndType = function(date, job_type, callback) {
 
   MongoClient.connect(this.mongo_url, function(err, db) {
     if(err){
@@ -18,10 +18,11 @@ AlertsMongoConnector.prototype.getReducedAlertsByDate = function(date, job_type,
           db.close();
           callback({"message": err}, null);
         }
+          db.close();
           callback(null, docs);
       });
     }
-    db.close();
+
   });
 };
 

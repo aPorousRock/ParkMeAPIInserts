@@ -221,7 +221,7 @@ router.put('/updateAlertSettings', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.updateAlertSettings(req.query.persona,req.body,function (err, doc) {
+  mongoConnector.updateAlertSettings(req.query.persona,req.body[0],function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }

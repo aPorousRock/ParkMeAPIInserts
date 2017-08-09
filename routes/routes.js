@@ -146,12 +146,12 @@ router.get('/getDashboardsByService', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.getDashboardsByService(req.query.service, function (err, docs) {
+  mongoConnector.getDashboardsByService(req.query.service, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(docs);
+      return res.status(200).json(doc);
     }
   });
 });
@@ -162,12 +162,12 @@ router.get('/getAlertSettings', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.getAlertSettings(req.query, function (err, docm) {
+  mongoConnector.getAlertSettings(req.query, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(docm);
+      return res.status(200).json(doc);
     }
   });
 });
@@ -179,12 +179,12 @@ router.get('/getAlertSettingsByPersona', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.getAlertSettingsByPersona(req.query.persona, function (err, doc1) {
+  mongoConnector.getAlertSettingsByPersona(req.query.persona, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(doc1);
+      return res.status(200).json(doc);
     }
   });
 });
@@ -195,12 +195,12 @@ router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.getAlertSettingsByPersonaAndDashboard(req.query.persona,req.query.dashboard, function (err, doc9) {
+  mongoConnector.getAlertSettingsByPersonaAndDashboard(req.query.persona,req.query.dashboard, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(doc9);
+      return res.status(200).json(doc);
     }
   });
 });
@@ -224,12 +224,12 @@ router.put('/updateAlertSettings', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.updateAlertSettings(req.query.persona,req.body,function (err, doc4) {
+  mongoConnector.updateAlertSettings(req.query.persona,req.body,function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(doc4);
+      return res.status(200).json(doc);
     }
   });
 });
@@ -239,12 +239,12 @@ router.get('/getLogsByName', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.getLogsByName(req.query.adopter_name, function (err, doc2) {
+  mongoConnector.getLogsByName(req.query.adopter_name, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(doc2);
+      return res.status(200).json(doc);
     }
   });
 });
@@ -255,12 +255,12 @@ router.get('/getLogsByNameAndDate', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.getLogsByNameAndDate(req.query.adopter_name,req.query.completed_at, function (err, doc3) {
+  mongoConnector.getLogsByNameAndDate(req.query.adopter_name,req.query.completed_at, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(doc3);
+      return res.status(200).json(doc);
     }
   });
 });
@@ -271,12 +271,12 @@ router.put('/updateLogsByNameAndDate', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.updateLogsByNameAndDate(req.query.adopter_name,req.query.completed_at, function (err, doc4) {
+  mongoConnector.updateLogsByNameAndDate(req.query.adopter_name,req.query.completed_at, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(doc4);
+      return res.status(200).json(doc);
     }
   });
 });
@@ -287,12 +287,12 @@ router.get('/getLogsByJobIDAndDate', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.getLogsByJobIDAndDate(req.query.jobID,req.query.completed_at, function (err, doc5) {
+  mongoConnector.getLogsByJobIDAndDate(req.query.jobID,req.query.completed_at, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(doc5);
+      return res.status(200).json(doc);
     }
   });
 });
@@ -302,12 +302,12 @@ router.get('/getAlertsQuickSummaryDataByDate', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.getAlertsQuickSummaryDataByDate(req.query.date, function (err, doc6) {
+  mongoConnector.getAlertsQuickSummaryDataByDate(req.query.date, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(doc6);
+      return res.status(200).json(doc);
     }
   });
 });
@@ -317,12 +317,12 @@ router.get('/getAlertsQuickSummaryData', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.getAlertsQuickSummaryData(req.query, function (err, doc7) {
+  mongoConnector.getAlertsQuickSummaryData(req.query, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(doc7);
+      return res.status(200).json(doc);
     }
   });
 });
@@ -332,12 +332,12 @@ router.get('/getAllLogs', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.getAllLogs(req.query, function (err, doc8) {
+  mongoConnector.getAllLogs(req.query, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(doc8);
+      return res.status(200).json(doc);
     }
   });
 });
@@ -345,12 +345,12 @@ router.get('/getAllLogs', function (req, res) {
 router.post('/addAlertQuickSummaryData', function (req, res) {
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.addAlertQuickSummaryData(req.body, function (err, doc10) {
+  mongoConnector.addAlertQuickSummaryData(req.body, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(doc10);
+      return res.status(200).json(doc);
 
 
 
@@ -361,12 +361,12 @@ router.post('/addAlertQuickSummaryData', function (req, res) {
 router.post('/addLogs', function (req, res) {
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.addLogs(req.body, function (err, doc11) {
+  mongoConnector.addLogs(req.body, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(doc11);
+      return res.status(200).json(doc);
 
 
 

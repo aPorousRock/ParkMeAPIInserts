@@ -4,7 +4,7 @@ const HighLevelConsumer = kafka.HighLevelConsumer;
 const Offset = kafka.Offset;
 const Client = kafka.Client;
 
-var Consumer = function(topic, io) {
+var kafkaConsumerBuffered = function(topic, io) {
 
   var self = this;
   self.rawMessages = [];
@@ -27,8 +27,7 @@ var Consumer = function(topic, io) {
 
   self.consumer.on('message', function(message) {
     const value = JSON.parse(message.value);
-    //const key = JSON.parse(message.key);
-    //console.log("key : " + key);
+    const key = message.key;
     self.rawMessages.push(value);
     self.enrichedMessages.push(value);
     if(self.rawMessages.length == 10){
@@ -49,4 +48,4 @@ var Consumer = function(topic, io) {
   return self;
 };
 
-module.exports = Consumer;
+module.exports = kafkaConsumerBuffered;

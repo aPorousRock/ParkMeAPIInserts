@@ -9,7 +9,7 @@ const MongoConnector = require('../mongodb/mongo-connector');
 const AlertsMongoConnector = require('../mongodb/alert-reduce.js');
 const kafkaConsumerRaw = require('../kafka/kafka-consumer-raw');
 const kafkaConsumerEnriched = require('../kafka/kafka-consumer-enriched');
-const Consumer = require('../kafka/kafka-consumer-buffered');
+const kafkaConsumerBuffered = require('../kafka/kafka-consumer-buffered');
 const loginDB = require("../mongodb/login");
 const passport = require('passport');
 
@@ -384,21 +384,26 @@ router.post('/addLogs', function (req, res) {
   });
 
 
-/* This function gets the streaming data */
+  /* This function gets the streaming data from kafka */
   router.get('/startStreamingBuffered', function(req, res, next) {
     if(req.query.topic == "" || req.query.topic == undefined) {
+
       return res.status(400).json({"Incomplete Request": "Please specify `topic` as query"});
+      
     }
     consumer = null;
-    consumer = new Consumer(req.query.topic, req.io);
+    consumer = new kafkaConsumerBuffered(req.query.topic, req.io);
 
     return res.status(200).json({"response": "Streaming started"});
   });
 
 
+  /* This function stops consuming data from kafka and stores data in a buffer */
   router.get('/stopStreamingBuffered', function(req, res) {
     consumer.close(function(data) {
+
       return res.send(data);
+
     });
   });
 

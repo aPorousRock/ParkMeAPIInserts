@@ -6,7 +6,13 @@ const executeSolrUpdateQuery = require('../solr/query-processor-update');
 const executeSolrUpdateAddQuery = require('../solr/query-processor-updateAdd');
 const executeSolrUpdateIncQuery = require('../solr/query-processor-updateInc');
 const MongoConnector = require('../mongodb/mongo-connector');
+
 const kafkaConsumer = require('../kafka/kafka-consumer').kafkaConsumer;
+
+const AlertsMongoConnector = require('../mongodb/alert-reduce.js');
+const kafkaConsumerRaw = require('../kafka/kafka-consumer-raw');
+const kafkaConsumerEnriched = require('../kafka/kafka-consumer-enriched');
+
 const loginDB = require("../mongodb/login");
 const passport = require('passport');
 
@@ -368,18 +374,50 @@ router.post('/addLogs', function (req, res) {
   });
   });
 
-router.get('/getKafkaData', function(req, res, next) {
-  if(req.query.topic == "" || req.query.topic == undefined) {
-    return res.status(400).json({"Incomplete Request": "Please specify `topic` as query"});
+/* This function gets the streaming data for raw logs */
+  router.get('/startStreamingRaw', function(req, res, next) {
+    if(req.query.topic == "" || req.query.topic == undefined) {
+      return res.status(400).json({"Incomplete Request": "Please specify `topic` as query"});
+    }
+
+    console.log("Streaming started for raw");
+
+    // Call kafkaConsumerRaw
+    kafkaConsumerRaw(req.query.topic, req.io);
+
+    return res.status(200).json({"response": "Streaming started"});
+  });
+
+/* This function gets the streaming data for enriched logs */
+  router.get('/startStreamingEnriched', function(req, res, next) {
+    if(req.query.topic == "" || req.query.topic == undefined) {
+      return res.status(400).json({"Incomplete Request": "Please specify `topic` as query"});
+    }
+
+    console.log("Streaming started for enriched");
+
+    // Call kafkaConsumerEnriched
+    kafkaConsumerEnriched(req.query.topic, req.io);
+
+    return res.status(200).json({"response": "Streaming started"});
+  });
+
+
+router.get('/getReducedAlertsByDateAndType', function(req, res, next) {
+  if(req.query.date == "" || req.query.date == undefined || req.query.job_type == "" || req.query.job_type == undefined) {
+    return res.status(400).json({"Incomplete Request": "Please specify `date` and `job_type` as query"});
   }
 
-  console.log("Streaming started");
-
-  // Call kafkaConsumer
-  kafkaConsumer(req.query.topic, req.io);
-
-  return res.status(200).json({"response": "Streaming started"});
-
+  var mongoConnector = new AlertsMongoConnector('bfmongodb');
+  mongoConnector.getReducedAlertsByDate(req.query.date, req.query.job_type, function (err, docs) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(docs);
+    }
+  });
 });
+
 
 module.exports = router;

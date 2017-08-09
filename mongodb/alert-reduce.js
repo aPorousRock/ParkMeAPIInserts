@@ -5,7 +5,7 @@ var AlertsMongoConnector = function(dbname) {
   this.mongo_url = "mongodb://" + conf.MONGO_USERNAME + ":" + conf.MONGO_PASSWORD + "@" + conf.MONGO_HOST + ":" + conf.MONGO_PORT + "/" + dbname + "?authSource=admin";
 }
 
-AlertsMongoConnector.prototype.getReducedAlertsByDate = function(date, callback) {
+AlertsMongoConnector.prototype.getReducedAlertsByDate = function(date, job_type, callback) {
 
   MongoClient.connect(this.mongo_url, function(err, db) {
     if(err){
@@ -13,7 +13,7 @@ AlertsMongoConnector.prototype.getReducedAlertsByDate = function(date, callback)
       callback({"message":err}, null);
     }
     else {
-      db.collection('reduced_alerts').find({"date": date}, {"_id": 0}).toArray(function(err, docs) {
+      db.collection('reduced_alerts').find({"date": date, "job_type": job_type}, {"_id": 0}).toArray(function(err, docs) {
         if(err){
           db.close();
           callback({"message": err}, null);

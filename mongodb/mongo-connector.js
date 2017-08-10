@@ -315,7 +315,7 @@ MongoConnector.prototype.getAlertSettings = function(query,callback) {
     db.close();
   });
 };
-MongoConnector.prototype.updateAlertSettings = function(persona, body, callback) {
+MongoConnector.prototype.updateAlertSettings = function(persona, settings_doc, callback) {
 
  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
@@ -324,7 +324,7 @@ MongoConnector.prototype.updateAlertSettings = function(persona, body, callback)
     }
     else {
 
-      db.collection('webapp_settings').update({"persona": persona}, body, {upsert:true},(err, docs)=>{
+      db.collection('webapp_settings').update({"persona": persona}, settings_doc, {upsert:true},(err, docs)=>{
         if(err){
 
           db.close();

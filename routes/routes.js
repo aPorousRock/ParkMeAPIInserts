@@ -143,18 +143,17 @@ router.get('/getDashboardsByService', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-  mongoConnector.getDashboardsByService(req.query.service, function (err, doc) {
+  mongoConnector.getDashboardsByService(req.query.service, function (err, docs) {
     if (err) {
       return res.status(500).json(err.message);
     }
     else {
-      return res.status(200).json(doc);
+      return res.status(200).json(docs);
     }
   });
 });
 router.get('/getAlertSettings', function (req, res) {
-  if (req.query == "" || req.query == undefined)
- {
+  if (req.query == "" || req.query == undefined){
     return res.status(400).json({ "Error": "Please specify `correct record` as query" });
   }
 
@@ -202,8 +201,6 @@ router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
   });
 });
 router.post('/addAlertSettings', function (req, res) {
-
-
   var mongoConnector = new MongoConnector('bfmongodb');
   mongoConnector.addAlertSettings(req.body, function (err, doc) {
     if (err) {
@@ -224,10 +221,8 @@ router.put('/updateAlertSettings', function (req, res) {
   mongoConnector.updateAlertSettings(req.query.persona,req.body[0],function (err, doc) {
       try {
           JSON.parse(doc);
-          console.log("Valid JSON");
           } 
       catch (e) {
-          console.log("not JSON");
                 }
     if (err) {
       return res.status(500).json(err.message);

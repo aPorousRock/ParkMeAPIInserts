@@ -3,16 +3,16 @@ const conf = require('config');
 const HighLevelConsumer = kafka.HighLevelConsumer;
 const Offset = kafka.Offset;
 const Client = kafka.Client;
+const GROUP_ID="kafka-node-group";
 
 var kafkaConsumerBuffered = function(topic, io) {
 
   var self = this;
-  self.rawMessages = [];
   self.enrichedMessages = [];
-  const client = new Client('9.45.245.136:2181', 'client-7');
+  const client = new Client(conf.ZOOKEEPER, 'client-7');
   const payloads = [{ "topic": topic}];
   const options = {
-    groupId: 'kafka-node-group7',
+    groupId: GROUP_ID,
     autoCommit: true,
     autoCommitIntervalMs: 5000,
     fetchMaxWaitMs: 100,
@@ -28,11 +28,10 @@ var kafkaConsumerBuffered = function(topic, io) {
   self.consumer.on('message', function(message) {
     const value = JSON.parse(message.value);
     const key = message.key;
-    self.rawMessages.push(value);
     self.enrichedMessages.push(value);
-    if(self.rawMessages.length == 10){
-      io.emit("messages", self.rawMessages);
-      self.rawMessages = [];
+    if(self.enrichedMessages.length == 10){
+      io.emit("messages", self.enrichedMessages);
+      self.enrichedMessages = [];
     };
   });
 

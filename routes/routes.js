@@ -387,13 +387,10 @@ router.post('/addLogs', function (req, res) {
   /* This function gets the streaming data from kafka */
   router.get('/startStreamingBuffered', function(req, res, next) {
     if(req.query.topic == "" || req.query.topic == undefined) {
-
       return res.status(400).json({"Incomplete Request": "Please specify `topic` as query"});
-      
     }
     consumer = null;
     consumer = new kafkaConsumerBuffered(req.query.topic, req.io);
-
     return res.status(200).json({"response": "Streaming started"});
   });
 
@@ -401,9 +398,7 @@ router.post('/addLogs', function (req, res) {
   /* This function stops consuming data from kafka and stores data in a buffer */
   router.get('/stopStreamingBuffered', function(req, res) {
     consumer.close(function(data) {
-
       return res.send(data);
-
     });
   });
 

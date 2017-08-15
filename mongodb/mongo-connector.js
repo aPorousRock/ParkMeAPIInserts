@@ -333,7 +333,6 @@ JSON.stringify(settings_doc);
     else {
 
       db.collection('webapp_settings').update({"persona": persona}, settings_doc, {upsert:true},(err, docs)=>{
-        console.log(docs);
 
         if(err){
 

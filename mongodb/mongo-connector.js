@@ -77,7 +77,6 @@ MongoConnector.prototype.getAlertSettingsByPersona = function(persona, callback)
     else {
 
       db.collection('webapp_settings').find({'persona':persona},{"_id": 0}).toArray(function (err, docs){
-        console.log(docs);
         if(err){
 
          db.close();
@@ -87,7 +86,6 @@ MongoConnector.prototype.getAlertSettingsByPersona = function(persona, callback)
         else if(!docs || docs.length<1) {
 
           db.collection('webapp_settings').find({'persona':"default"},{"_id": 0}).toArray(function (err, docs){
-            console.log(docs);
             if(err){
 
              db.close();

@@ -67,6 +67,7 @@ MongoConnector.prototype.getDashboardsByService = function(service, callback) {
     db.close();
   });
 };
+
 MongoConnector.prototype.getAlertSettingsByPersona = function(persona, callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {

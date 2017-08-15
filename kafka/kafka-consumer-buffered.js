@@ -3,13 +3,14 @@ const conf = require('config');
 const HighLevelConsumer = kafka.HighLevelConsumer;
 const Offset = kafka.Offset;
 const Client = kafka.Client;
-const GROUP_ID="kafka-node-group";
+const GROUP_ID = "kafka-node-group4";
+const CLIENT = "client-4";
 
 var kafkaConsumerBuffered = function(topic, io) {
 
   var self = this;
   self.enrichedMessages = [];
-  const client = new Client(conf.ZOOKEEPER, 'client-7');
+  const client = new Client(conf.ZOOKEEPER, CLIENT);
   const payloads = [{ "topic": topic}];
   const options = {
     groupId: GROUP_ID,

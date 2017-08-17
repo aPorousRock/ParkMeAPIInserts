@@ -6,6 +6,7 @@ const executeSolrUpdateQuery = require('../solr/query-processor-update');
 const executeSolrUpdateAddQuery = require('../solr/query-processor-updateAdd');
 const executeSolrUpdateIncQuery = require('../solr/query-processor-updateInc');
 const MongoConnector = require('../mongodb/mongo-connector');
+const kafkaConsumer = require('../kafka/kafka-consumer').kafkaConsumer;
 const AlertsMongoConnector = require('../mongodb/alert-reduce.js');
 const kafkaConsumerRaw = require('../kafka/kafka-consumer-raw');
 const kafkaConsumerEnriched = require('../kafka/kafka-consumer-enriched');
@@ -55,12 +56,13 @@ router.get('/solr/executeQuery', function (req, res) {
 
   executeSolrQuery(req.query.query, req.query.collection, req.query.aggregationMode, function (err, results) {
     if (err) {
-      return res.status(500).json(err.message)
+      return res.status(500).json(err.message);
     }
     else {
       return res.status(200).json(results);
     }
   });
+
 });
 
 router.get('/solr/update', function (req, res) {
@@ -153,12 +155,11 @@ router.get('/getDashboardsByService', function (req, res) {
   });
 });
 router.get('/getAlertSettings', function (req, res) {
-  if (req.query == "" || req.query == undefined) {
+  if (req.query == "" || req.query == undefined){
     return res.status(400).json({ "Error": "Please specify `correct record` as query" });
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-
   mongoConnector.getAlertSettings(req.query, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
@@ -168,6 +169,7 @@ router.get('/getAlertSettings', function (req, res) {
     }
   });
 });
+
 
 router.get('/getAlertSettingsByPersona', function (req, res) {
   if (req.query.persona == "" || req.query.persona == undefined) {
@@ -191,7 +193,6 @@ router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
   }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-
   mongoConnector.getAlertSettingsByPersonaAndDashboard(req.query.persona,req.query.dashboard, function (err, doc) {
     if (err) {
       return res.status(500).json(err.message);
@@ -202,10 +203,29 @@ router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
   });
 });
 router.post('/addAlertSettings', function (req, res) {
+  var mongoConnector = new MongoConnector('bfmongodb');
+  mongoConnector.addAlertSettings(req.body, function (err, doc) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc);
+    }
+  });
+});
+
+router.put('/updateAlertSettings', function (req, res) {
+  if (req.query.persona == "" || req.query.persona == undefined) {
+    return res.status(400).json({ "Error": "Please specify `persona` as query" });
+  }
 
   var mongoConnector = new MongoConnector('bfmongodb');
-
-  mongoConnector.addAlertSettings(req.body, function (err, doc) {
+  mongoConnector.updateAlertSettings(req.query.persona,req.body[0],function (err, doc) {
+      try {
+          JSON.parse(doc);
+          } 
+      catch (e) {
+                }
     if (err) {
       return res.status(500).json(err.message);
     }
@@ -384,6 +404,7 @@ router.post('/addLogs', function (req, res) {
   });
 
 
+
   /* This function gets the streaming data from kafka */
   router.get('/startStreamingBuffered', function(req, res, next) {
     if(req.query.topic == "" || req.query.topic == undefined) {
@@ -408,7 +429,7 @@ router.get('/getReducedAlertsByDateAndType', function(req, res, next) {
   }
 
   var mongoConnector = new AlertsMongoConnector('bfmongodb');
-  mongoConnector.getReducedAlertsByDate(req.query.date, req.query.job_type, function (err, docs) {
+  mongoConnector.getReducedAlertsByDateAndType(req.query.date, req.query.job_type, function (err, docs) {
     if (err) {
       return res.status(500).json(err.message);
     }

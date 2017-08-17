@@ -6,13 +6,14 @@ const executeSolrUpdateQuery = require('../solr/query-processor-update');
 const executeSolrUpdateAddQuery = require('../solr/query-processor-updateAdd');
 const executeSolrUpdateIncQuery = require('../solr/query-processor-updateInc');
 const MongoConnector = require('../mongodb/mongo-connector');
-const kafkaConsumer = require('../kafka/kafka-consumer').kafkaConsumer;
 const AlertsMongoConnector = require('../mongodb/alert-reduce.js');
 const kafkaConsumerRaw = require('../kafka/kafka-consumer-raw');
 const kafkaConsumerEnriched = require('../kafka/kafka-consumer-enriched');
+const kafkaConsumerBuffered = require('../kafka/kafka-consumer-buffered');
 const loginDB = require("../mongodb/login");
 const passport = require('passport');
 
+var consumer;
 var loginDBobj = new loginDB("bfmongodb");
 loginDBobj.login();
 
@@ -221,7 +222,7 @@ router.put('/updateAlertSettings', function (req, res) {
   mongoConnector.updateAlertSettings(req.query.persona,req.body[0],function (err, doc) {
       try {
           JSON.parse(doc);
-          } 
+          }
       catch (e) {
                 }
     if (err) {
@@ -401,6 +402,25 @@ router.post('/addLogs', function (req, res) {
     return res.status(200).json({"response": "Streaming started"});
   });
 
+
+
+  /* This function gets the streaming data from kafka */
+  router.get('/startStreamingBuffered', function(req, res, next) {
+    if(req.query.topic == "" || req.query.topic == undefined) {
+      return res.status(400).json({"Incomplete Request": "Please specify `topic` as query"});
+    }
+    consumer = null;
+    consumer = new kafkaConsumerBuffered(req.query.topic, req.io);
+    return res.status(200).json({"response": "Streaming started"});
+  });
+
+
+  /* This function stops consuming data from kafka and stores data in a buffer */
+  router.get('/stopStreamingBuffered', function(req, res) {
+    consumer.close(function(data) {
+      return res.send(data);
+    });
+  });
 
 router.get('/getReducedAlertsByDateAndType', function(req, res, next) {
   if(req.query.date == "" || req.query.date == undefined || req.query.job_type == "" || req.query.job_type == undefined) {

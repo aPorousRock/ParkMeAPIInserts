@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp"
   },
   "keywords": [
     "impala"
@@ -27,7 +27,15 @@
     "request": "^2.81.0",
     "socket.io": "^2.0.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-istanbul": "^1.1.1",
+    "gulp-mocha": "^3.0.1",
+    "mocha": "^3.1.0",
+    "should": "^4.0.4",
+    "supertest": ""
+  },
   "repository": {
     "type": "git",
     "url": "git@github.ibm.com:CIOCloud/BFAnalyticsAPI.git",

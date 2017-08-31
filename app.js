@@ -39,3 +39,6 @@ server.listen(5000,'0.0.0.0', function() {
   console.log("API Server running at port 5000");
 
 });
+
+module.exports = app;
+module.exports.app = app;

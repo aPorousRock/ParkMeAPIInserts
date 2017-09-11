@@ -138,6 +138,38 @@ router.get('/getAccountsAndServicesByPersona', function (req, res) {
   });
 });
 
+router.get('/getOrgsByPersona', function (req, res) {
+  if (req.query.persona == "" || req.query.persona == undefined) {
+    return res.status(400).json({ "Error": "Please specify `persona` as query" });
+  }
+
+  var mongoConnector = new MongoConnector('bfmongodb');
+  mongoConnector.getOrgsByPersona(req.query.persona, function (err, doc) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc);
+    }
+  });
+});
+
+router.get('/getAccountsByOrg', function (req, res) {
+  if (req.query.org == "" || req.query.org == undefined) {
+    return res.status(400).json({ "Error": "Please specify `org` as query" });
+  }
+
+  var mongoConnector = new MongoConnector('bfmongodb');
+  mongoConnector.getAccountsByOrg(req.query.org, function (err, doc) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc);
+    }
+  });
+});
+
 router.get('/getDashboardsByService', function (req, res) {
   if (req.query.service == "" || req.query.service == undefined) {
     return res.status(400).json({ "Error": "Please specify `service` as query" });

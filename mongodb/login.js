@@ -21,7 +21,7 @@ loginDB.prototype.login = function() {
       passport.use(new Strategy(
         function(username, password, callback) {
           // Write check function
-          db.collection("access_control").find({username: username}).limit(1).toArray(function(err, user) {
+          db.collection("users").find({username: username}).limit(1).toArray(function(err, user) {
             if(err) {
               return callback(err);
             }
@@ -48,7 +48,7 @@ loginDB.prototype.login = function() {
 
       passport.deserializeUser(function(id, callback) {
         var objectId = new ObjectID(id);
-        db.collection("access_control").find({_id: objectId}).limit(1).toArray(function(err, user) {
+        db.collection("users").find({_id: objectId}).limit(1).toArray(function(err, user) {
           if(err) {
             return callback(err);
           }
@@ -57,31 +57,6 @@ loginDB.prototype.login = function() {
         });
       });
     }
-
-      // passport.use(new Strategy(
-      //   function(username, password, callback) {
-      //     // Write check function
-      //     if(username == password){
-      //       var user = {
-      //         "name": "Abhinav",
-      //         "value": "hehe"
-      //       };
-      //       return callback(null, user);
-      //     }
-      //     else {
-      //       return callback(null, false);
-      //     }
-      //   }
-      // ));
-      //
-      // passport.serializeUser(function(user, callback) {
-      //   return callback(null, "admin");
-      // });
-      //
-      // passport.deserializeUser(function(id, callback) {
-      //   return callback(null, "admin");
-      // });
-    // db.close();
   });
 };
 

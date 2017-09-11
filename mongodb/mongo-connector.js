@@ -6,7 +6,6 @@ var MongoConnector = function(dbname) {
  this.mongo_url_alerts = "mongodb://bflogadmin:safe4now@bfmongo201.innovate.ibm.com:27017/bfdata";
 }
 
-
 MongoConnector.prototype.getAccountsAndServicesByPersona = function(persona, callback) {
 
   MongoClient.connect(this.mongo_url, function(err, db) {
@@ -30,6 +29,68 @@ MongoConnector.prototype.getAccountsAndServicesByPersona = function(persona, cal
         else {
           db.close();
           callback(null, docs[0]);
+        }
+      });
+    }
+
+    db.close();
+  });
+};
+
+MongoConnector.prototype.getOrgsByPersona = function(persona, callback) {
+
+  MongoClient.connect(this.mongo_url, function(err, db) {
+    if(err){
+
+      callback({"message":err}, null);
+    }
+    else {
+      db.collection('users').find({"persona": persona}, {"_id": 0, "username": 0, "password":0}).limit(1).toArray(function(err, docs) {
+        if(err){
+
+          db.close();
+          callback({"message": err}, null);
+        }
+
+        if(!docs || docs.length<1){
+
+          db.close();
+          callback({"message": "No such persona"}, null);
+        }
+        else {
+          db.close();
+          callback(null, docs[0].orgs);
+        }
+      });
+    }
+
+    db.close();
+  });
+};
+
+MongoConnector.prototype.getAccountsByOrg = function(org, callback) {
+
+  MongoClient.connect(this.mongo_url, function(err, db) {
+    if(err){
+
+      callback({"message":err}, null);
+    }
+    else {
+      db.collection('orgs').find({"org": org}, {"_id": 0}).limit(1).toArray(function(err, docs) {
+        if(err){
+
+          db.close();
+          callback({"message": err}, null);
+        }
+
+        if(!docs || docs.length<1){
+
+          db.close();
+          callback({"message": "No such persona"}, null);
+        }
+        else {
+          db.close();
+          callback(null, docs[0].accounts);
         }
       });
     }
@@ -77,52 +138,53 @@ MongoConnector.prototype.getAlertSettingsByPersona = function(persona, callback)
     }
     else {
 
-      db.collection('webapp_settings').find({'persona': persona},{"_id": 0}).toArray(function (err, docs){
+      db.collection('webapp_settings').find({'persona':persona},{"_id": 0}).toArray(function (err, docs){
         if(err){
 
-         db.close();
+          db.close();
           callback({"message": err}, null);
         }
 
-        else if(!docs || docs.length < 1) {
+        if(!docs || docs.length<1){
 
-          db.collection('webapp_settings').find({'persona': "default"},{"_id": 0}).toArray(function (err, docs){
+          db.collection('webapp_settings').find({'persona': "default"}, {"_id": 0}).toArray(function (err, docs){
             if(err){
-
-             db.close();
+              db.close();
               callback({"message": err}, null);
             }
+
             db.close();
             callback(null, docs);
-      });
-    }
+          });
+        }
         else {
           db.close();
           callback(null, docs);
-            }
+        }
       });
     }
+
+    // db.close();
   });
 };
-
 
 MongoConnector.prototype.getLogsByName = function(adopter_name, callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
 
-      callback({"message": err}, null);
+      callback({"message":err}, null);
     }
     else {
 
-      db.collection('JobOutput').find({'adopter_name': adopter_name},{"_id": 0}).toArray(function (err, docs){
+      db.collection('JobOutput').find({'adopter_name':adopter_name},{"_id": 0}).toArray(function (err, docs){
         if(err){
 
           db.close();
           callback({"message": err}, null);
         }
 
-        if(!docs || docs.length < 1){
+        if(!docs || docs.length<1){
 
           db.close();
           callback({"message": "No such record"}, null);
@@ -146,14 +208,14 @@ MongoConnector.prototype.getLogsByNameAndDate = function(adopter_name, completed
     }
     else {
 
-      db.collection('JobOutput').find({'adopter_name': adopter_name,'completed_at': completed_at},{"_id": 0}).toArray(function (err, docs){
+      db.collection('JobOutput').find({'adopter_name':adopter_name,'completed_at':completed_at},{"_id": 0}).toArray(function (err, docs){
         if(err){
 
           db.close();
           callback({"message": err}, null);
         }
 
-        if(!docs || docs.length < 1){
+        if(!docs || docs.length<1){
 
           db.close();
           callback({"message": "No such record"}, null);
@@ -177,14 +239,14 @@ MongoConnector.prototype.updateLogsByNameAndDate = function(adopter_name, comple
     }
     else {
 
-      db.collection('JobOutput').updateOne({"adopter_name": "adopter119","completed_at": "2017-03-22T15:42:24.039383"},{$set:{"jobID": "IBM143224456_summary_msgtype_2017-2-27_2017-2-28_1490211734840"}},(err, docs)=>{
+      db.collection('JobOutput').updateOne({"adopter_name":"adopter119","completed_at":"2017-03-22T15:42:24.039383"},{$set:{"jobID":"IBM143224456_summary_msgtype_2017-2-27_2017-2-28_1490211734840"}},(err, docs)=>{
         if(err){
 
           db.close();
           callback({"message": err}, null);
         }
 
-        if(!docs || docs.length < 1){
+        if(!docs || docs.length<1){
 
           db.close();
           callback({"message": "No such record"}, null);
@@ -208,14 +270,14 @@ MongoConnector.prototype.getLogsByJobIDAndDate = function(jobID, completed_at, c
     }
     else {
 
-      db.collection('JobOutput').find({'jobID': jobID,'completed_at': completed_at},{"_id": 0}).toArray(function (err, docs){
+      db.collection('JobOutput').find({'jobID':jobID,'completed_at':completed_at},{"_id": 0}).toArray(function (err, docs){
         if(err){
 
           db.close();
           callback({"message": err}, null);
         }
 
-        if(!docs || docs.length < 1){
+        if(!docs || docs.length<1){
 
           db.close();
           callback({"message": "No such record"}, null);
@@ -230,7 +292,7 @@ MongoConnector.prototype.getLogsByJobIDAndDate = function(jobID, completed_at, c
     db.close();
   });
 };
-MongoConnector.prototype.getAlertsQuickSummaryData = function(query, callback) {
+MongoConnector.prototype.getAlertsQuickSummaryData = function(query,callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
@@ -246,7 +308,7 @@ MongoConnector.prototype.getAlertsQuickSummaryData = function(query, callback) {
           callback({"message": err}, null);
         }
 
-        if(!docs || docs.length < 1){
+        if(!docs || docs.length<1){
 
           db.close();
           callback({"message": "No such record"}, null);
@@ -261,7 +323,7 @@ MongoConnector.prototype.getAlertsQuickSummaryData = function(query, callback) {
     db.close();
   });
 };
-MongoConnector.prototype.getAllLogs = function(query, callback) {
+MongoConnector.prototype.getAllLogs = function(query,callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
@@ -277,7 +339,7 @@ MongoConnector.prototype.getAllLogs = function(query, callback) {
           callback({"message": err}, null);
         }
 
-        if(!docs || docs.length < 1){
+        if(!docs || docs.length<1){
 
           db.close();
           callback({"message": "No such record"}, null);
@@ -292,7 +354,7 @@ MongoConnector.prototype.getAllLogs = function(query, callback) {
     db.close();
   });
 };
-MongoConnector.prototype.getAlertSettings = function(query, callback) {
+MongoConnector.prototype.getAlertSettings = function(query,callback) {
 
   MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
@@ -308,7 +370,7 @@ MongoConnector.prototype.getAlertSettings = function(query, callback) {
           callback({"message": err}, null);
         }
 
-        if(!docs || docs.length < 1){
+        if(!docs || docs.length<1){
 
           db.close();
           callback({"message": "No such record"}, null);
@@ -324,7 +386,7 @@ MongoConnector.prototype.getAlertSettings = function(query, callback) {
   });
 };
 MongoConnector.prototype.updateAlertSettings = function(persona, settings_doc, callback) {
-JSON.stringify(settings_doc);
+
  MongoClient.connect(this.mongo_url_alerts, function(err, db) {
     if(err){
 
@@ -332,16 +394,14 @@ JSON.stringify(settings_doc);
     }
     else {
 
-      db.collection('webapp_settings').update({"persona": persona}, settings_doc, {upsert: true},(err, docs)=>{
-
+      db.collection('webapp_settings').update({"persona": persona}, settings_doc, {upsert:true},(err, docs)=>{
         if(err){
 
           db.close();
           callback({"message": err}, null);
         }
 
-        if(!docs || docs.length < 1){
-
+        if(!docs || docs.length<1){
 
           db.close();
           callback({"message": "No such record"}, null);
@@ -364,14 +424,14 @@ MongoConnector.prototype.getAlertsQuickSummaryDataByDate = function(date, callba
     }
     else {
 
-      db.collection('mockdata').find({'date': date},{"_id": 0}).toArray(function (err, docs){
+      db.collection('mockdata').find({'date':date},{"_id": 0}).toArray(function (err, docs){
         if(err){
 
           db.close();
           callback({"message": err}, null);
         }
 
-        if(!docs || docs.length < 1){
+        if(!docs || docs.length<1){
 
           db.close();
           callback({"message": "No such record"}, null);
@@ -395,14 +455,14 @@ MongoConnector.prototype.getAlertSettingsByPersonaAndDashboard = function(person
     }
     else {
 
-      db.collection('webapp_settings').find({'persona': persona,'dashboard': dashboard},{"_id": 0}).toArray(function (err, docs){
+      db.collection('webapp_settings').find({'persona':persona,'dashboard':dashboard},{"_id": 0}).toArray(function (err, docs){
         if(err){
 
           db.close();
           callback({"message": err}, null);
         }
 
-        if(!docs || docs.length < 1){
+        if(!docs || docs.length<1){
 
           db.close();
           callback({"message": "No such record"}, null);
@@ -435,7 +495,7 @@ MongoConnector.prototype.addAlertSettings = function(body, callback) {
           callback({"message": err}, null);
         }
 
-        if(!docs || docs.length < 1){
+        if(!docs || docs.length<1){
 
           db.close();
           callback({"message": "No such record"}, null);
@@ -470,7 +530,7 @@ MongoConnector.prototype.addLogs = function(body, callback) {
           callback({"message": err}, null);
         }
 
-        if(!docs || docs.length < 1){
+        if(!docs || docs.length<1){
 
           db.close();
           callback({"message": "No such record"}, null);
@@ -505,7 +565,7 @@ MongoConnector.prototype.addAlertQuickSummaryData = function(body, callback) {
           callback({"message": err}, null);
         }
 
-        if(!docs || docs.length < 1){
+        if(!docs || docs.length<1){
 
           db.close();
           callback({"message": "No such record"}, null);

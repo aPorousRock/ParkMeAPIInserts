@@ -138,6 +138,48 @@ router.get('/getAccountsAndServicesByPersona', function (req, res) {
   });
 });
 
+/*
+* Returns a list of organizations for a given persona
+*
+* @param {string} persona - Username of the logged in user
+*/
+router.get('/getOrgsByPersona', function (req, res) {
+  if (req.query.persona == "" || req.query.persona == undefined) {
+    return res.status(400).json({ "Error": "Please specify `persona` as query" });
+  }
+
+  var mongoConnector = new MongoConnector('bfmongodb');
+  mongoConnector.getOrgsByPersona(req.query.persona, function (err, doc) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc);
+    }
+  });
+});
+
+/*
+* Returns a list of accounts associated with a given organization
+*
+* @param {string} org - Selected Organization
+*/
+router.get('/getAccountsByOrg', function (req, res) {
+  if (req.query.org == "" || req.query.org == undefined) {
+    return res.status(400).json({ "Error": "Please specify `org` as query" });
+  }
+
+  var mongoConnector = new MongoConnector('bfmongodb');
+  mongoConnector.getAccountsByOrg(req.query.org, function (err, doc) {
+    if (err) {
+      return res.status(500).json(err.message);
+    }
+    else {
+      return res.status(200).json(doc);
+    }
+  });
+});
+
 router.get('/getDashboardsByService', function (req, res) {
   if (req.query.service == "" || req.query.service == undefined) {
     return res.status(400).json({ "Error": "Please specify `service` as query" });
@@ -153,6 +195,7 @@ router.get('/getDashboardsByService', function (req, res) {
     }
   });
 });
+
 router.get('/getAlertSettings', function (req, res) {
   if (req.query == "" || req.query == undefined){
     return res.status(400).json({ "Error": "Please specify `correct record` as query" });
@@ -185,6 +228,7 @@ router.get('/getAlertSettingsByPersona', function (req, res) {
     }
   });
 });
+
 router.get('/getAlertSettingsByPersonaAndDashboard', function (req, res) {
   if (req.query.persona == "" || req.query.persona == undefined||req.query.dashboard == "" || req.query.dashboard == undefined
 ) {
@@ -233,6 +277,7 @@ router.put('/updateAlertSettings', function (req, res) {
     }
   });
 });
+
 router.get('/getLogsByName', function (req, res) {
   if (req.query.adopter_name == "" || req.query.adopter_name == undefined) {
     return res.status(400).json({ "Error": "Please specify `name ` as query" });
@@ -248,6 +293,7 @@ router.get('/getLogsByName', function (req, res) {
     }
   });
 });
+
 router.get('/getLogsByNameAndDate', function (req, res) {
   if (req.query.adopter_name == "" || req.query.adopter_name == undefined||req.query.completed_at == "" || req.query.completed_at == undefined
 ) {
@@ -264,6 +310,7 @@ router.get('/getLogsByNameAndDate', function (req, res) {
     }
   });
 });
+
 router.put('/updateLogsByNameAndDate', function (req, res) {
   if (req.query.adopter_name == "" || req.query.adopter_name == undefined||req.query.completed_at == "" || req.query.completed_at == undefined
 ) {
@@ -280,6 +327,7 @@ router.put('/updateLogsByNameAndDate', function (req, res) {
     }
   });
 });
+
 router.get('/getLogsByJobIDAndDate', function (req, res) {
   if (req.query.jobID == "" || req.query.jobID == undefined||req.query.completed_at == "" || req.query.completed_at == undefined
 ) {
@@ -296,6 +344,7 @@ router.get('/getLogsByJobIDAndDate', function (req, res) {
     }
   });
 });
+
 router.get('/getAlertsQuickSummaryDataByDate', function (req, res) {
   if (req.query.date == "" || req.query.date == undefined) {
     return res.status(400).json({ "Error": "Please specify `date` as query" });
@@ -311,6 +360,7 @@ router.get('/getAlertsQuickSummaryDataByDate', function (req, res) {
     }
   });
 });
+
 router.get('/getAlertsQuickSummaryData', function (req, res) {
   if (req.query == "" || req.query == undefined) {
     return res.status(400).json({ "Error": "Please specify `correct data` as query" });
@@ -326,6 +376,7 @@ router.get('/getAlertsQuickSummaryData', function (req, res) {
     }
   });
 });
+
 router.get('/getAllLogs', function (req, res) {
   if (req.query == "" || req.query == undefined) {
     return res.status(400).json({ "Error": "Please specify `correct logs` query" });
@@ -351,10 +402,6 @@ router.post('/addAlertQuickSummaryData', function (req, res) {
     }
     else {
       return res.status(200).json(doc);
-
-
-
-
     }
   });
 });
@@ -367,9 +414,6 @@ router.post('/addLogs', function (req, res) {
     }
     else {
       return res.status(200).json(doc);
-
-
-
     }
   });
   });

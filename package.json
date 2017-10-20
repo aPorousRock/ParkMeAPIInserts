@@ -1,46 +1,21 @@
 {
-  "name": "impala-server",
+  "name": "parkme_api",
   "version": "1.0.0",
-  "description": "Server to request Impala data over HDFS using node.js",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "test": "gulp"
-  },
-  "keywords": [
-    "impala"
-  ],
-  "author": "Abhinav Jha",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.17.2",
-    "config": "^1.26.1",
-    "config-parser": "0.0.3",
-    "cors": "^2.8.3",
-    "express": "^4.15.2",
-    "kafka-node": "^1.6.2",
-    "mongodb": "^2.2.28",
-    "node-impala": "^2.0.4",
-    "nodemon": "^1.11.0",
-    "passport": "^0.3.2",
-    "passport-local": "^1.0.0",
-    "request": "^2.81.0",
-    "socket.io": "^2.0.3"
-  },
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-eslint": "^2.0.0",
-    "gulp-istanbul": "^1.1.1",
-    "gulp-mocha": "^3.0.1",
-    "mocha": "^3.1.0",
-    "should": "^4.0.4",
-    "supertest": ""
+    "test": "npm app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.ibm.com:CIOCloud/BFAnalyticsAPI.git",
-    "passport": "^0.3.2",
-    "passport-local": "^1.0.0",
-    "socket.io": "^2.0.3"
-  }
+    "url": "''"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bson-ext": "^1.0.5",
+    "kerberos": "0.0.23",
+    "mongodb": "^2.2.33"
+  },
+  "devDependencies": {},
+  "description": ""
 }
